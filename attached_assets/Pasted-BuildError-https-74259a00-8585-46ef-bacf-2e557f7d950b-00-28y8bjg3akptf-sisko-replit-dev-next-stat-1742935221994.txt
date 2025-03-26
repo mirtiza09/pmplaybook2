@@ -1,0 +1,12 @@
+BuildError@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/%5Broot%20of%20the%20server%5D__3a40d6d2._.js:17247:41
+renderWithHooks@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:13260:37
+updateFunctionComponent@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:16755:32
+beginWork@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:18388:32
+beginWork$1@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:23101:28
+performUnitOfWork@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:22402:24
+workLoopSync@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:22331:34
+renderRootSync@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:22308:21
+performConcurrentWorkOnRoot@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_react-dom_cjs_react-dom_development_ab7e073c.js:21732:84
+workLoop@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_69e050bc._.js:267:56
+flushWork@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_69e050bc._.js:246:28
+performWorkUntilDeadline@https://74259a00-8585-46ef-bacf-2e557f7d950b-00-28y8bjg3akptf.sisko.replit.dev/_next/static/chunks/node_modules_69e050bc._.js:474:35

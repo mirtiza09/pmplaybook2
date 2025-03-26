@@ -1,0 +1,31 @@
+Feedback Loops
+
+Feedback loops are the engines of growth and change. They’re the mechanisms by which the output of a system influences its input.
+
+Complex systems often have many feedback loops, and it can be hard to appreciate how adjusting to feedback in one part of the system will affect the rest.
+
+Using feedback loops as a mental model begins with noticing the feedback you give and respond to daily. The model also provides insight into the value of iterations in adjusting based on the feedback you receive. With this lens, you gain insight into where to direct system changes based on feedback and the pace you need to go to monitor the impacts.
+
+Feedback loops are what make systems dynamic. Without feedback, a system does the same thing over and over. Understand them, respect them, and use them wisely.
+
+Bottlenecks
+
+Bottlenecks are the choke points, the narrow parts of the hourglass where everything slows down. They’re the constraints that limit the flow, the weakest links in the chain that determine the strength of the whole. In any system, the bottleneck is the part holding everything else back.
+
+The tricky thing about bottlenecks is that they’re not always obvious. It’s easy to focus on the parts of the system that are moving quickly and assume everything is fine. But the real leverage is in finding and fixing the bottlenecks. Speed up the slowest part, and you speed up the whole system.
+
+This is the theory of constraints in a nutshell. Figure out your bottleneck and focus all your efforts on alleviating it. Don’t waste time optimizing the parts that are already fast. They’re not the limiting factor.
+
+However, bottlenecks aren’t always the villains we make them out to be. Sometimes, they’re a necessary part of the system. Think of a security checkpoint at an airport. It slows everything down, but it’s there for a reason. Remove it, and you might speed things up, but at the cost of safety.
+
+The key is to be intentional about your bottlenecks. Choose them wisely, and make sure they’re serving a purpose. A deliberate bottleneck can be a powerful tool for focusing effort and maintaining quality. An accidental bottleneck is just a drag on the system.
+
+Bottlenecks are leverage points where a little effort can go a long way.
+
+Churn
+
+Churn is the silent killer of businesses. It’s the slow leak, the constant drip of customers slipping away, of users drifting off to find something new. The attrition eats away at your growth, forcing you to keep running just to stay in place. The thing about churn is that it’s often hidden. It’s not like a sudden crisis that grabs your attention. It’s a slow, quiet process that happens in the background. 
+
+Churn can present opportunity. Like a snake shedding its skin, replacing components of a system is a natural part of keeping it healthy. New parts can improve functionality. 
+
+When we use this model as a lens, we see that new people bring new ideas, and counterintuitively, some turnover allows us to maintain stability. Replacing what is worn out also allows us to upgrade and expand our capabilities, creating new opportunities. Some churn is inevitable. Too much can kill you.
