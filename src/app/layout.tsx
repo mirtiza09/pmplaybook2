@@ -16,8 +16,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cn("font-['Consolas'] min-h-screen bg-[#121212]")}>
-        {<PostHogProvider>{children}</PostHogProvider>}
+      <body className={cn("font-mono min-h-screen bg-[#121212]")}>
+        <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>
   );
