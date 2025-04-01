@@ -11,10 +11,6 @@ build = ["npm", "run", "build"]
 run = ["npm", "run", "start"]
 deploymentTarget = "cloudrun"
 
-[[ports]]
-localPort = 3000
-externalPort = 80
-
 [deployment.cloudrun]
 memory = "512Mi"
 cpu = "1"
@@ -23,6 +19,14 @@ maxInstances = 1
 
 [deployment.env]
 NODE_ENV = "production"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
 
 [permissions]
 advancedUser = true
