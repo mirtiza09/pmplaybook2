@@ -12,21 +12,15 @@ function NewsletterSubscription() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (posthog) {
-      posthog.capture("newsletter_subscribe_clicked", {
-        email,
-        timestamp: new Date().toISOString(),
-      });
-    }
     setMessage("Submitting...");
     try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (posthog) {
+        posthog.capture("survey sent", {
+          $survey_id: 'newsletter-subscription',
+          $survey_response: email,
+          subscribed_at: new Date().toISOString(),
+          location: 'footer'
+        });
       }
       setMessage("Thank you for subscribing!");
       setEmail("");

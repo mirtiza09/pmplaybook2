@@ -13,18 +13,13 @@ export default function NewsletterSubscription() {
     e.preventDefault();
     setStatus("loading");
     try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!response.ok) throw new Error();
-      setStatus("success");
-      setEmail("");
-      posthog.capture('user_subscribed', {
-        email: email,
+      posthog.capture("survey sent", {
+        $survey_id: 'newsletter-subscription',
+        $survey_response: email,
         subscribed_at: new Date().toISOString()
       });
+      setStatus("success");
+      setEmail("");
     } catch {
       setStatus("error");
     }
