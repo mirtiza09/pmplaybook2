@@ -14,8 +14,11 @@ export default function NewsletterSubscription() {
     setStatus("loading");
     try {
       posthog.capture("survey sent", {
-        $survey_id: 'newsletter-subscription',
+        $survey_id: "0195f226-683f-0000-b4b8-1ae42348f8fe",
+        $survey_name: "newsletter-subscription",
         $survey_response: email,
+        $survey_question_id: "0dde9169-8e2b-49f7-b309-3698bff0a3c2",
+        $survey_question_type: "open",
         subscribed_at: new Date().toISOString()
       });
       setStatus("success");
