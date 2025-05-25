@@ -5,11 +5,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
-  // Disable experimental features to avoid Turbopack conflicts
-  experimental: {
-    // Remove turbo: false since it's not a valid boolean option
-    forceSwcTransforms: true,
-  },
+  // Remove experimental features that conflict with Turbopack
+  // experimental: {
+  //   forceSwcTransforms: true,
+  // },
   
   // Ensure webpack is used as the compiler
   webpack: (config, { isServer }) => {

@@ -1,14 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  
   images: {
     unoptimized: true,
-    domains: [
-      "source.unsplash.com",
-      "images.unsplash.com",
-      "ext.same-assets.com",
-      "ugc.same-assets.com",
-    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -32,6 +27,7 @@ const nextConfig = {
       },
     ],
   },
+  
   async rewrites() {
     return [
       {
@@ -48,7 +44,7 @@ const nextConfig = {
       },
     ];
   },
-  // This is required to support PostHog trailing slash API requests
+  
   skipTrailingSlashRedirect: true,
 };
 

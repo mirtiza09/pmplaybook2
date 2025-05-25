@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { UXLawCard } from "@/components/UXLawCard";
-import { mentalModels } from "@/data/mental-models";
+import { getPageConfig, getFilteredCards } from "@/data/configService";
 import { Pagination } from "@/components/Pagination";
 
 export default function MentalModelsPage() {
@@ -13,10 +13,17 @@ export default function MentalModelsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const filteredModels = activeCategory.toLowerCase() === "all" 
-    ? mentalModels 
-    : mentalModels.filter(model => model.category?.toLowerCase() === activeCategory.toLowerCase());
-
+  const pageConfig = getPageConfig("mental-models");
+  
+  // Map to get category ID from display text
+  const getCategoryId = (categoryText: string): string => {
+    if (categoryText === "ALL") return "all";
+    const tab = pageConfig?.tabs?.find((tab: { id: string; text: string }) => tab.text === categoryText);
+    return tab?.id || categoryText.toLowerCase();
+  };
+  
+  const categoryId = getCategoryId(activeCategory);
+  const filteredModels = getFilteredCards("mental-models", categoryId);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedModels = filteredModels.slice(startIndex, startIndex + itemsPerPage);
 
@@ -31,7 +38,7 @@ export default function MentalModelsPage() {
       <section className="pt-32 px-6 md:px-12 pb-20">
         <div className="max-w-3xl mx-auto mb-24">
           <h1 className="text-2xl md:text-4xl font-normal mb-6">
-            <p className="leading-relaxed">A curated set of cognitive tools that product managers can leverage to gain <span className="underline">strategic clarity</span> throughout the product lifecycle.</p>
+            <p className="leading-relaxed">{pageConfig.subtitle}</p>
           </h1>
         </div>
 
@@ -39,7 +46,7 @@ export default function MentalModelsPage() {
           <CategoryTabs
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
-            categories={["all", "thinking", "natural sciences", "systems", "numeracy", "microeconomics", "military", "human nature"]}
+            categories={pageConfig.tabs.map(tab => tab.text)}
           />
         </div>
 
@@ -58,7 +65,7 @@ export default function MentalModelsPage() {
         </div>
         <Pagination
           currentPage={currentPage}
-          totalItems={mentalModels.length}
+          totalItems={filteredModels.length}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
         />

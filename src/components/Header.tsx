@@ -7,31 +7,22 @@ import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePostHog } from "posthog-js/react";
+import config from "@/config/appConfig.json";
 
 export function Header() {
   const pathname = usePathname();
   const [hovered, setHovered] = useState<number | null>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
-  const [isCardsEnabled, setIsCardsEnabled] = useState(false);
   const navWrapperRef = useRef<HTMLDivElement>(null);
   const posthog = usePostHog();
 
-  useEffect(() => {
-    if (posthog) {
-      posthog.onFeatureFlags(() => {
-        setIsCardsEnabled(posthog.isFeatureEnabled('CardsPage'));
-      });
-    }
-  }, [posthog]);
-
-  const links = [
-    { href: "/", label: "LAWS" },
-    { href: "/frameworks", label: "FRAMEWORKS" },
-    { href: "/mental-models", label: "MENTAL MODELS" },
-    ...(isCardsEnabled ? [{ href: "/cards", label: "CARDS" }] : []),
-    { href: "/about", label: "ABOUT" }
-  ];
+  // Filter links based on feature flags
+  const links = config.navigation.level1.filter(link => {
+    if (!link.featureFlag) return true;
+    if (!posthog) return false;
+    return posthog.isFeatureEnabled(link.featureFlag);
+  });
 
   const updateArrowsVisibility = () => {
     if (!navWrapperRef.current) return;
@@ -80,7 +71,7 @@ export function Header() {
             </div>
           </Link>
           <h1 className="text-sm md:text-base font-semibold">
-            THE PRODUCT MANAGER'S PLAYBOOK
+            {config.site.headerTitle}
           </h1>
         </div>
 
@@ -101,7 +92,7 @@ export function Header() {
                   href={link.href}
                   onClick={() => {
                     posthog.capture('navigation_click', {
-                      section: link.label,
+                      section: link.text,
                       path: link.href
                     });
                   }}
@@ -118,7 +109,7 @@ export function Header() {
                       />
                     )}
                   </span>
-                  {link.label}
+                  {link.text}
                 </Link>
               ))}
             </nav>

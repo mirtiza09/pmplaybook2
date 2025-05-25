@@ -3,12 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import config from "@/config/appConfig.json";
 
 export const metadata: Metadata = {
-  title: "The Product Playbook | A Collection of Product Management Principles",
-  description:
-    "The Product Playbook is a collection of best practices that PMs can consider when building products.",
-  metadataBase: new URL("https://lawsofproduct.com"),
+  title: config.site.metaTitle,
+  description: config.site.metaDescription,
+  metadataBase: new URL(config.site.baseUrl),
 };
 
 export default function RootLayout({

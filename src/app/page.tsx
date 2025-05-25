@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
-import { UXLawCard } from "@/components/UXLawCard";
-import { getFilteredLaws } from "@/data/ux-laws";
+import { DirectoryItemCard } from "@/components/DirectoryItemCard";
+import { getPageConfig, getFilteredCards } from "@/data/configService";
 import { Pagination } from "@/components/Pagination";
 
 
@@ -14,9 +14,19 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const filteredLaws = getFilteredLaws(activeCategory);
+  const pageConfig = getPageConfig("sectionAlpha");
+  
+  // Map to get category ID from display text
+  const getCategoryId = (categoryText: string): string => {
+    if (categoryText === "ALL") return "all";
+    const tab = pageConfig?.tabs?.find((tab: { id: string; text: string }) => tab.text === categoryText);
+    return tab?.id || categoryText.toLowerCase();
+  };
+  
+  const categoryId = getCategoryId(activeCategory);
+  const filteredItems = getFilteredCards("sectionAlpha", categoryId);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedLaws = filteredLaws.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -29,7 +39,7 @@ export default function Home() {
       <section className="pt-32 px-6 md:px-12 pb-20">
         <div className="max-w-3xl mx-auto mb-24">
           <h1 className="text-2xl md:text-4xl font-normal mb-6">
-            <p className="leading-relaxed">A collection of best practices that product managers can consider to <span className="underline">manage products better</span>.</p>
+            <p className="leading-relaxed">{pageConfig.subtitle}</p>
           </h1>
         </div>
 
@@ -37,26 +47,27 @@ export default function Home() {
           <CategoryTabs
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
-            categories={["all", "discovery", "operations", "delivery", "ux"]}
+            categories={pageConfig.tabs.map(tab => tab.text)}
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {paginatedLaws.map((law) => (
-            <UXLawCard
-              key={law.id}
-              id={law.id}
-              title={law.title}
-              description={law.description}
-              bgColor={law.bgColor}
-              category={law.category.replace("_", " ").toUpperCase()}
-              icon={<law.icon />}
+          {paginatedItems.map((item) => (
+            <DirectoryItemCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              bgColor={item.bgColor}
+              category={item.category}
+              icon={<item.icon />}
+              sectionId="sectionAlpha"
             />
           ))}
         </div>
         <Pagination
           currentPage={currentPage}
-          totalItems={filteredLaws.length}
+          totalItems={filteredItems.length}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
         />

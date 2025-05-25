@@ -4,21 +4,25 @@ import posthog from "posthog-js"
 import { PostHogProvider as PHProvider, usePostHog } from "posthog-js/react"
 import { Suspense, useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
+import { config } from "@/data/configService"
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    if (!posthog.__loaded) {
-      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-        api_host: "https://eu.posthog.com", // Change from "/ingest" to the actual PostHog API host
-        ui_host: "https://eu.posthog.com",
-        capture_pageview: false,
-        capture_pageleave: true,
-        loaded: (posthog) => {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('PostHog loaded successfully');
+    if (!posthog.__loaded && config.site.posthog.enabled) {
+      const apiKey = process.env[config.site.posthog.apiKeyEnvName];
+      if (apiKey) {
+        posthog.init(apiKey, {
+          api_host: config.site.posthog.apiHost,
+          ui_host: config.site.posthog.apiHost,
+          capture_pageview: false,
+          capture_pageleave: true,
+          loaded: (posthog) => {
+            if (process.env.NODE_ENV === 'development') {
+              console.log('PostHog loaded successfully');
+            }
           }
-        }
-      })
+        })
+      }
     }
   }, [])
 

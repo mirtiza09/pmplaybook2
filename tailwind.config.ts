@@ -7,6 +7,7 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // No safelist needed - using inline styles for colors
   theme: {
     extend: {
       colors: {

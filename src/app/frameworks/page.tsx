@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { UXLawCard } from "@/components/UXLawCard";
-import { getFilteredFrameworks } from "@/data/frameworks";
+import { getPageConfig, getFilteredCards } from "@/data/configService";
 import { Pagination } from "@/components/Pagination";
 
 export default function FrameworksPage() {
@@ -13,7 +13,8 @@ export default function FrameworksPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const filteredFrameworks = getFilteredFrameworks(activeCategory);
+  const pageConfig = getPageConfig("frameworks");
+  const filteredFrameworks = getFilteredCards("frameworks", activeCategory);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedFrameworks = filteredFrameworks.slice(startIndex, startIndex + itemsPerPage);
 
@@ -28,7 +29,7 @@ export default function FrameworksPage() {
       <section className="pt-32 px-6 md:px-12 pb-20">
         <div className="max-w-3xl mx-auto mb-24">
           <h1 className="text-2xl md:text-4xl font-normal mb-6">
-            <p className="leading-relaxed">A collection of structured frameworks that product managers can apply to <span className="underline">deliver better outcomes</span>.</p>
+            <p className="leading-relaxed">{pageConfig.subtitle}</p>
           </h1>
         </div>
 
@@ -36,7 +37,7 @@ export default function FrameworksPage() {
           <CategoryTabs
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
-            categories={["all", "strategy", "stakeholder", "prioritization", "discovery", "delivery", "growth"]}
+            categories={pageConfig.tabs.map(tab => tab.id)}
           />
         </div>
 

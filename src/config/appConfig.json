@@ -1,0 +1,1249 @@
+{  "colorPalette": {
+    "categories": {
+      "cat1": {
+        "primary": "bg-red-900",
+        "secondary": "bg-pink-900", 
+        "tertiary": "bg-rose-900",
+        "accent": "bg-red-800"
+      },
+      "cat2": {
+        "primary": "bg-teal-900",
+        "secondary": "bg-cyan-900",
+        "tertiary": "bg-blue-900",
+        "accent": "bg-teal-800"
+      },
+      "cat3": {
+        "primary": "bg-amber-900",
+        "secondary": "bg-yellow-900",
+        "tertiary": "bg-orange-900",
+        "accent": "bg-amber-800"
+      },
+      "cat4": {
+        "primary": "bg-purple-900",
+        "secondary": "bg-indigo-900",
+        "tertiary": "bg-violet-900",
+        "accent": "bg-purple-800"
+      },
+      "cat5": {
+        "primary": "bg-blue-900",
+        "secondary": "bg-indigo-900",
+        "tertiary": "bg-purple-900",
+        "accent": "bg-blue-800"
+      },
+      "cat6": {
+        "primary": "bg-green-900",
+        "secondary": "bg-teal-900",
+        "tertiary": "bg-emerald-900",
+        "accent": "bg-green-800"
+      },
+      "cat7": {
+        "primary": "bg-red-900",
+        "secondary": "bg-pink-900",
+        "tertiary": "bg-orange-900",
+        "accent": "bg-red-800"
+      },
+      "cat8": {
+        "primary": "bg-emerald-900",
+        "secondary": "bg-blue-800",
+        "tertiary": "bg-green-900",
+        "accent": "bg-emerald-800"
+      },
+      "cat9": {
+        "primary": "bg-blue-800",
+        "secondary": "bg-purple-800",
+        "tertiary": "bg-gray-800",
+        "accent": "bg-blue-700"
+      },
+      "cat10": {
+        "primary": "bg-green-800",
+        "secondary": "bg-teal-800",
+        "tertiary": "bg-cyan-800",
+        "accent": "bg-green-700"
+      },
+      "cat11": {
+        "primary": "bg-indigo-800",
+        "secondary": "bg-violet-800",
+        "tertiary": "bg-purple-800",
+        "accent": "bg-indigo-700"
+      },
+      "cat12": {
+        "primary": "bg-yellow-800",
+        "secondary": "bg-orange-800",
+        "tertiary": "bg-red-800",
+        "accent": "bg-yellow-700"
+      },
+      "cat13": {
+        "primary": "bg-pink-800",
+        "secondary": "bg-rose-800",
+        "tertiary": "bg-fuchsia-800",
+        "accent": "bg-pink-700"
+      }
+    },
+    "presets": {
+      "warm": ["bg-red-900", "bg-orange-900", "bg-amber-900", "bg-yellow-900"],
+      "cool": ["bg-blue-900", "bg-cyan-900", "bg-teal-900", "bg-green-900"],
+      "neutral": ["bg-gray-900", "bg-slate-900", "bg-zinc-900", "bg-stone-900"],
+      "vibrant": ["bg-purple-900", "bg-pink-900", "bg-indigo-900", "bg-fuchsia-900"]
+    },
+    "gradients": {
+      "cat1": "from-red-900 to-pink-900",
+      "cat2": "from-teal-900 to-cyan-900",
+      "cat3": "from-amber-900 to-yellow-900",
+      "cat4": "from-purple-900 to-indigo-900",
+      "cat5": "from-blue-900 to-indigo-900",
+      "cat6": "from-green-900 to-teal-900",
+      "cat7": "from-red-900 to-orange-900",
+      "cat8": "from-emerald-900 to-green-900"
+    }
+  },  "site": {
+    "metaTitle": "Product Management Software | Comprehensive Resource Collection",
+    "metaDescription": "A comprehensive collection of product management frameworks, mental models, and strategic tools for product professionals.",
+    "baseUrl": "https://product-management-software.com",
+    "headerTitle": "PRODUCT MANAGEMENT SOFTWARE",
+    "posthog": {
+      "apiKeyEnvName": "NEXT_PUBLIC_POSTHOG_KEY",
+      "apiHost": "https://eu.posthog.com",
+      "enabled": true
+    }
+  },
+  "navigation": {
+    "level1": [
+      { "id": "sectionAlpha", "text": "UX LAWS", "href": "/", "featureFlag": null },
+      { "id": "sectionBeta", "text": "FRAMEWORKS", "href": "/sectionBeta", "featureFlag": null },
+      { "id": "sectionGamma", "text": "MENTAL MODELS", "href": "/sectionGamma", "featureFlag": null },
+      { "id": "cards", "text": "CARDS", "href": "/cards", "featureFlag": "CardsPage" },
+      { "id": "about", "text": "ABOUT", "href": "/about", "featureFlag": null }
+    ]
+  },  "pages": {    "sectionAlpha": {
+      "title": "UX Laws & Principles",
+      "subtitle": "Essential user experience laws and principles that guide effective product design and user interaction.",
+      "tabs": [
+        { "id": "all", "text": "ALL" },
+        { "id": "cat1", "text": "RESEARCH" },
+        { "id": "cat2", "text": "OPERATIONS" },
+        { "id": "cat3", "text": "DELIVERY" },
+        { "id": "cat4", "text": "UX DESIGN" }
+      ],"cards": [
+        {
+          "id": "peak-end-rule",
+          "title": "Peak-End Rule",
+          "category": "cat1",
+          "bgColor": "bg-red-900",
+          "icon": "icon1",
+          "shortDescription": "Users' recollection of their experience is heavily influenced by the most intense point and the end of the experience, which should be considered when evaluating feedback.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-validation",
+          "title": "Law of Validation",
+          "category": "cat1",
+          "bgColor": "bg-indigo-900",
+          "icon": "icon2",
+          "shortDescription": "Assumptions must be validated with real user data to avoid building the wrong product.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-divergence-and-convergence",
+          "title": "Law of Divergence and Convergence",
+          "category": "cat1",
+          "bgColor": "bg-pink-900",
+          "icon": "icon3",
+          "shortDescription": "Effective discovery involves exploring a wide range of ideas (divergence) and then selecting the most promising ones (convergence).",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-technical-debt",
+          "title": "Law of Technical Debt",
+          "category": "cat2",
+          "bgColor": "bg-teal-900",
+          "icon": "icon4",
+          "shortDescription": "Unaddressed technical debt accumulates interest, making future changes more costly and time-consuming.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-customer-retention",
+          "title": "Law of Customer Retention",
+          "category": "cat2",
+          "bgColor": "bg-cyan-900",
+          "icon": "icon5",
+          "shortDescription": "Retaining existing customers is more cost-effective than acquiring new ones, so operations should focus on customer satisfaction and loyalty.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-feedback-loops",
+          "title": "Law of Feedback Loops",
+          "category": "cat2",
+          "bgColor": "bg-lime-900",
+          "icon": "icon6",
+          "shortDescription": "Short feedback loops enable faster learning and improvement in product operations.",
+          "featureFlag": null
+        },
+        {
+          "id": "brooks-law",
+          "title": "Brooks's Law",
+          "category": "cat3",
+          "bgColor": "bg-amber-900",
+          "icon": "icon7",
+          "shortDescription": "Adding more resources to a late project will delay it further due to increased communication overhead.",
+          "featureFlag": null
+        },
+        {
+          "id": "iron-triangle-law",
+          "title": "Iron Triangle Law",
+          "category": "cat3",
+          "bgColor": "bg-fuchsia-900",
+          "icon": "icon8",
+          "shortDescription": "In product delivery, you can fix two of the three constraints—scope, time, and cost—but the third must be flexible.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-early-testing",
+          "title": "Law of Early Testing",
+          "category": "cat3",
+          "bgColor": "bg-emerald-900",
+          "icon": "icon9",
+          "shortDescription": "Defects found early in the development process are cheaper to fix than those found later.",
+          "featureFlag": null
+        },
+        {
+          "id": "aesthetic-usability-effect",
+          "title": "Aesthetic-Usability Effect",
+          "category": "cat4",
+          "bgColor": "bg-blue-900",
+          "icon": "icon10",
+          "shortDescription": "Users often perceive aesthetically pleasing design as design that's more usable.",
+          "featureFlag": null
+        },
+        {
+          "id": "doherty-threshold",
+          "title": "Doherty Threshold",
+          "category": "cat4",
+          "bgColor": "bg-purple-900",
+          "icon": "icon11",
+          "shortDescription": "Productivity soars when a computer and its users interact at a pace (<400ms) that ensures that neither has to wait on the other.",
+          "featureFlag": null
+        },
+        {
+          "id": "fitts-law",
+          "title": "Fitt's Law",
+          "category": "cat4",
+          "bgColor": "bg-green-900",
+          "icon": "icon12",
+          "shortDescription": "The time to acquire a target is a function of the distance to and size of the target.",
+          "featureFlag": null
+        },
+        {
+          "id": "hicks-law",
+          "title": "Hick's Law",
+          "category": "cat4",
+          "bgColor": "bg-blue-800",
+          "icon": "icon13",
+          "shortDescription": "The time it takes to make a decision increases with the number and complexity of choices.",
+          "featureFlag": null
+        },
+        {
+          "id": "jakobs-law",
+          "title": "Jakob's Law",
+          "category": "cat4",
+          "bgColor": "bg-yellow-800",
+          "icon": "icon14",
+          "shortDescription": "Users spend most of their time on other sites. This means that users prefer your site to work the same way as all the other sites they already know.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-common-region",
+          "title": "Law of Common Region",
+          "category": "cat4",
+          "bgColor": "bg-green-800",
+          "icon": "icon15",
+          "shortDescription": "Elements tend to be perceived into groups if they are sharing an area with a clearly defined boundary.",
+          "featureFlag": null
+        },
+        {
+          "id": "law-of-proximity",
+          "title": "Law of Proximity",
+          "category": "cat4",
+          "bgColor": "bg-orange-700",
+          "icon": "icon16",
+          "shortDescription": "Objects that are near, or proximate to each other, tend to be grouped together.",
+          "featureFlag": null
+        },
+        {
+          "id": "parkinsons-law",
+          "title": "Parkinson's Law",
+          "category": "cat3",
+          "bgColor": "bg-yellow-900",
+          "icon": "icon17",
+          "shortDescription": "Any task will inflate until all of the available time is spent.",
+          "featureFlag": null
+        }
+      ]
+    },    "sectionBeta": {
+      "title": "Section Beta Items",
+      "subtitle": "Strategic tools and methodologies for comprehensive resource management and decision-making processes.",
+      "tabs": [
+        { "id": "all", "text": "ALL" },
+        { "id": "cat5", "text": "STRATEGY" },
+        { "id": "cat6", "text": "RESEARCH" },
+        { "id": "cat7", "text": "PRIORITIZATION" },
+        { "id": "cat8", "text": "METHODOLOGY" },
+        { "id": "cat9", "text": "AGILE" },
+        { "id": "cat10", "text": "METRICS" }
+      ],"cards": [
+        {
+          "id": "product-vision-canvas",
+          "title": "Product Vision Canvas",
+          "category": "cat5",
+          "bgColor": "bg-blue-900",
+          "icon": "icon18",
+          "shortDescription": "A strategic tool that helps teams align on the product vision, target users, and business goals.",
+          "featureFlag": null
+        },
+        {
+          "id": "business-model-canvas",
+          "title": "Business Model Canvas",
+          "category": "cat5",
+          "bgColor": "bg-indigo-900",
+          "icon": "icon19",
+          "shortDescription": "A visual framework for developing, documenting, and understanding business models.",
+          "featureFlag": null
+        },
+        {
+          "id": "lean-canvas",
+          "title": "Lean Canvas",
+          "category": "cat5",
+          "bgColor": "bg-purple-900",
+          "icon": "icon20",
+          "shortDescription": "A modified business model canvas optimized for startups and new product development.",
+          "featureFlag": null
+        },
+        {
+          "id": "stakeholder-mapping",
+          "title": "Stakeholder Mapping",
+          "category": "cat6",
+          "bgColor": "bg-green-900",
+          "icon": "icon21",
+          "shortDescription": "A visual representation of all stakeholders and their relationships to the product.",
+          "featureFlag": null
+        },
+        {
+          "id": "empathy-mapping",
+          "title": "Empathy Mapping",
+          "category": "cat6",
+          "bgColor": "bg-teal-900",
+          "icon": "icon22",
+          "shortDescription": "A tool to understand user emotions, thoughts, and behaviors to build better products.",
+          "featureFlag": null
+        },
+        {
+          "id": "rice-scoring",
+          "title": "RICE Scoring",
+          "category": "cat7",
+          "bgColor": "bg-red-900",
+          "icon": "icon23",
+          "shortDescription": "A prioritization framework that evaluates initiatives based on Reach, Impact, Confidence, and Effort.",
+          "featureFlag": null
+        },
+        {
+          "id": "moscow-method",
+          "title": "MoSCoW Method",
+          "category": "cat7",
+          "bgColor": "bg-pink-900",
+          "icon": "icon24",
+          "shortDescription": "A prioritization technique categorizing features as Must have, Should have, Could have, or Won't have.",
+          "featureFlag": null
+        },
+        {
+          "id": "kano-model",
+          "title": "Kano Model",
+          "category": "cat7",
+          "bgColor": "bg-orange-900",
+          "icon": "icon25",
+          "shortDescription": "A framework for categorizing features based on customer satisfaction and functionality.",
+          "featureFlag": null
+        },
+        {
+          "id": "jobs-to-be-done",
+          "title": "Jobs-to-be-Done",
+          "category": "cat8",
+          "bgColor": "bg-cyan-900",
+          "icon": "icon26",
+          "shortDescription": "A framework for understanding the underlying motivations behind customer behavior.",
+          "featureFlag": null
+        },
+        {
+          "id": "design-thinking",
+          "title": "Design Thinking",
+          "category": "cat8",
+          "bgColor": "bg-lime-900",
+          "icon": "icon27",
+          "shortDescription": "A human-centered approach to innovation that integrates needs, technology, and business viability.",
+          "featureFlag": null
+        },
+        {
+          "id": "scrum-framework",
+          "title": "Scrum Framework",
+          "category": "cat9",
+          "bgColor": "bg-amber-900",
+          "icon": "icon28",
+          "shortDescription": "An agile framework for managing product development with iterative delivery cycles.",
+          "featureFlag": null
+        },
+        {
+          "id": "kanban-method",
+          "title": "Kanban Method",
+          "category": "cat9",
+          "bgColor": "bg-yellow-900",
+          "icon": "icon29",          "shortDescription": "A visual workflow management method for improving delivery efficiency and reducing waste.",
+          "featureFlag": null
+        },
+        {
+          "id": "aarrr-metrics",
+          "title": "AARRR Metrics",
+          "category": "cat10",
+          "bgColor": "bg-emerald-900",
+          "icon": "icon30",
+          "shortDescription": "A framework measuring Acquisition, Activation, Retention, Referral, and Revenue for growth.",
+          "featureFlag": null
+        },
+        {
+          "id": "growth-hacking",
+          "title": "Growth Hacking",
+          "category": "cat10",
+          "bgColor": "bg-blue-800",
+          "icon": "icon31",
+          "shortDescription": "A data-driven approach to rapid experimentation and growth through product and marketing.",
+          "featureFlag": null
+        }
+      ]
+    },    "sectionGamma": {
+      "title": "Section Gamma Items",
+      "subtitle": "A curated set of cognitive tools and conceptual frameworks for strategic analysis and systematic thinking.",      "tabs": [
+        { "id": "all", "text": "ALL" },
+        { "id": "cat11", "text": "THINKING" },
+        { "id": "cat12", "text": "STRATEGY" },
+        { "id": "cat13", "text": "SYSTEMS" },
+        { "id": "cat1", "text": "ANALYTICS" },
+        { "id": "cat2", "text": "ECONOMICS" },
+        { "id": "cat3", "text": "PSYCHOLOGY" },
+        { "id": "cat4", "text": "BEHAVIOR" },
+        { "id": "cat5", "text": "DECISION" },
+        { "id": "cat6", "text": "INNOVATION" },
+        { "id": "cat7", "text": "RISK" },
+        { "id": "cat8", "text": "LEARNING" },
+        { "id": "cat9", "text": "EXECUTION" },
+        { "id": "cat10", "text": "GROWTH" }
+      ],"cards": [
+        {
+          "id": "supply-demand",
+          "title": "Supply and Demand",
+          "category": "cat2",
+          "bgColor": "bg-yellow-800",
+          "icon": "icon32",
+          "shortDescription": "Market forces that determine price and resource allocation through dynamic balance",
+          "featureFlag": null
+        },
+        {
+          "id": "opportunity-cost",
+          "title": "Opportunity Cost",
+          "category": "cat2",
+          "bgColor": "bg-orange-800",
+          "icon": "icon33",
+          "shortDescription": "The value of the best alternative forgone when making a choice",
+          "featureFlag": null
+        },
+        {
+          "id": "network-effects",
+          "title": "Network Effects",
+          "category": "cat2",
+          "bgColor": "bg-red-800",
+          "icon": "icon34",
+          "shortDescription": "The phenomenon where a product becomes more valuable as more people use it",
+          "featureFlag": null
+        },
+        {
+          "id": "first-principles",
+          "title": "First Principles Thinking",
+          "category": "cat11",
+          "bgColor": "bg-blue-800",
+          "icon": "icon35",
+          "shortDescription": "Breaking down complex problems into fundamental truths and building up from there",
+          "featureFlag": null
+        },
+        {
+          "id": "mental-models",
+          "title": "Mental Models",
+          "category": "cat11",
+          "bgColor": "bg-purple-800",
+          "icon": "icon36",
+          "shortDescription": "Cognitive frameworks for understanding and navigating the world",
+          "featureFlag": null
+        },
+        {
+          "id": "systems-thinking",
+          "title": "Systems Thinking",
+          "category": "cat13",
+          "bgColor": "bg-green-800",
+          "icon": "icon37",
+          "shortDescription": "Understanding how components interact within complex systems to produce emergent behaviors",
+          "featureFlag": null
+        },
+        {
+          "id": "feedback-loops",
+          "title": "Feedback Loops",
+          "category": "cat13",
+          "bgColor": "bg-teal-800",
+          "icon": "icon38",
+          "shortDescription": "Self-reinforcing cycles that can amplify or dampen effects within a system",
+          "featureFlag": null
+        },
+        {
+          "id": "leverage-points",
+          "title": "Leverage Points",
+          "category": "cat13",
+          "bgColor": "bg-cyan-800",
+          "icon": "icon39",
+          "shortDescription": "Points within a system where small changes can produce significant impacts",
+          "featureFlag": null
+        },
+        {
+          "id": "statistical-thinking",
+          "title": "Statistical Thinking",
+          "category": "cat1",
+          "bgColor": "bg-indigo-800",
+          "icon": "icon40",
+          "shortDescription": "Using data and probability to make informed decisions under uncertainty",
+          "featureFlag": null
+        },
+        {
+          "id": "compound-interest",
+          "title": "Compound Interest",
+          "category": "cat1",
+          "bgColor": "bg-violet-800",
+          "icon": "icon41",
+          "shortDescription": "The powerful effect of earning returns on both principal and accumulated interest",
+          "featureFlag": null
+        },
+        {
+          "id": "inversion",
+          "title": "Inversion",
+          "category": "cat11",
+          "bgColor": "bg-gray-800",
+          "icon": "icon42",
+          "shortDescription": "Approaching problems by considering what you want to avoid rather than what you want to achieve",
+          "featureFlag": null
+        },
+        {
+          "id": "cognitive-biases",
+          "title": "Cognitive Biases",
+          "category": "cat4",
+          "bgColor": "bg-pink-800",
+          "icon": "icon43",
+          "shortDescription": "Systematic errors in thinking that affect decisions and judgments",
+          "featureFlag": null
+        },
+        {
+          "id": "social-proof",
+          "title": "Social Proof",
+          "category": "cat4",
+          "bgColor": "bg-rose-800",
+          "icon": "icon44",
+          "shortDescription": "The tendency to follow the actions of others in uncertain situations",
+          "featureFlag": null
+        },        {
+          "id": "authority-bias",
+          "title": "Authority Bias",
+          "category": "cat4",
+          "bgColor": "bg-fuchsia-800",
+          "icon": "icon45",
+          "shortDescription": "The tendency to attribute greater accuracy to the opinion of an authority figure",
+          "featureFlag": null
+        },
+        {
+          "id": "decision-trees",
+          "title": "Decision Trees",
+          "category": "cat5",
+          "bgColor": "bg-emerald-800",
+          "icon": "icon46",
+          "shortDescription": "Visual models that map decisions and their possible consequences",
+          "featureFlag": null
+        },
+        {
+          "id": "expected-value",
+          "title": "Expected Value",
+          "category": "cat5",
+          "bgColor": "bg-lime-800",
+          "icon": "icon47",
+          "shortDescription": "A calculation that considers all possible outcomes weighted by their probabilities",
+          "featureFlag": null
+        },
+        {
+          "id": "satisficing",
+          "title": "Satisficing",
+          "category": "cat5",
+          "bgColor": "bg-amber-800",
+          "icon": "icon48",
+          "shortDescription": "Making decisions that are good enough rather than optimal",
+          "featureFlag": null
+        },
+        {
+          "id": "design-thinking",
+          "title": "Design Thinking",
+          "category": "cat6",
+          "bgColor": "bg-sky-800",
+          "icon": "icon49",
+          "shortDescription": "Human-centered approach to innovation that integrates needs, technology, and business",
+          "featureFlag": null
+        },
+        {
+          "id": "lean-startup",
+          "title": "Lean Startup",
+          "category": "cat6",
+          "bgColor": "bg-zinc-800",
+          "icon": "icon50",
+          "shortDescription": "Build-measure-learn approach to developing businesses and products",
+          "featureFlag": null
+        },
+        {
+          "id": "blue-ocean",
+          "title": "Blue Ocean Strategy",
+          "category": "cat6",
+          "bgColor": "bg-slate-800",
+          "icon": "icon51",
+          "shortDescription": "Creating uncontested market space by making competition irrelevant",
+          "featureFlag": null
+        },
+        {
+          "id": "risk-assessment",
+          "title": "Risk Assessment",
+          "category": "cat7",
+          "bgColor": "bg-red-700",
+          "icon": "icon52",
+          "shortDescription": "Systematic evaluation of potential threats and their impact",
+          "featureFlag": null
+        },
+        {
+          "id": "monte-carlo",
+          "title": "Monte Carlo Simulation",
+          "category": "cat7",
+          "bgColor": "bg-orange-700",
+          "icon": "icon53",
+          "shortDescription": "Using random sampling to understand the impact of risk and uncertainty",
+          "featureFlag": null
+        },
+        {
+          "id": "black-swan",
+          "title": "Black Swan Events",
+          "category": "cat7",
+          "bgColor": "bg-yellow-700",
+          "icon": "icon54",
+          "shortDescription": "Rare, unpredictable events with massive impact",
+          "featureFlag": null
+        },
+        {
+          "id": "double-loop-learning",
+          "title": "Double-Loop Learning",
+          "category": "cat8",
+          "bgColor": "bg-green-700",
+          "icon": "icon55",
+          "shortDescription": "Learning that questions underlying assumptions and mental models",
+          "featureFlag": null
+        },
+        {
+          "id": "deliberate-practice",
+          "title": "Deliberate Practice",
+          "category": "cat8",
+          "bgColor": "bg-blue-700",
+          "icon": "icon56",
+          "shortDescription": "Focused, goal-oriented practice designed to improve performance",
+          "featureFlag": null
+        },
+        {
+          "id": "growth-mindset",
+          "title": "Growth Mindset",
+          "category": "cat8",
+          "bgColor": "bg-purple-700",
+          "icon": "icon57",
+          "shortDescription": "The belief that abilities can be developed through dedication and hard work",
+          "featureFlag": null
+        },
+        {
+          "id": "okrs",
+          "title": "OKRs (Objectives and Key Results)",
+          "category": "cat9",
+          "bgColor": "bg-indigo-700",
+          "icon": "icon58",
+          "shortDescription": "Goal-setting framework that helps organizations align and track progress",
+          "featureFlag": null
+        },
+        {
+          "id": "agile-methodology",
+          "title": "Agile Methodology",
+          "category": "cat9",
+          "bgColor": "bg-violet-700",
+          "icon": "icon59",
+          "shortDescription": "Iterative approach to project management and software development",
+          "featureFlag": null
+        },
+        {
+          "id": "scrum-framework",
+          "title": "Scrum Framework",
+          "category": "cat9",
+          "bgColor": "bg-gray-700",
+          "icon": "icon60",
+          "shortDescription": "Structured framework for managing complex product development",
+          "featureFlag": null
+        },
+        {
+          "id": "viral-loops",
+          "title": "Viral Loops",
+          "category": "cat10",
+          "bgColor": "bg-pink-700",
+          "icon": "icon61",
+          "shortDescription": "Self-reinforcing cycles where existing users bring in new users",
+          "featureFlag": null
+        },
+        {
+          "id": "product-market-fit",
+          "title": "Product-Market Fit",
+          "category": "cat10",
+          "bgColor": "bg-rose-700",
+          "icon": "icon62",
+          "shortDescription": "The degree to which a product satisfies strong market demand",
+          "featureFlag": null
+        },
+        {
+          "id": "growth-hacking",
+          "title": "Growth Hacking",
+          "category": "cat10",
+          "bgColor": "bg-fuchsia-700",
+          "icon": "icon63",
+          "shortDescription": "Creative, low-cost strategies to help businesses acquire and retain customers",
+          "featureFlag": null
+        },
+        {
+          "id": "cognitive-load",
+          "title": "Cognitive Load Theory",
+          "category": "cat3",
+          "bgColor": "bg-emerald-700",
+          "icon": "icon64",
+          "shortDescription": "Understanding how mental effort affects learning and decision-making",
+          "featureFlag": null
+        },
+        {
+          "id": "flow-state",
+          "title": "Flow State",
+          "category": "cat3",
+          "bgColor": "bg-lime-700",
+          "icon": "icon65",
+          "shortDescription": "Mental state of complete immersion and focus in an activity",
+          "featureFlag": null
+        },
+        {
+          "id": "loss-aversion",
+          "title": "Loss Aversion",
+          "category": "cat3",
+          "bgColor": "bg-amber-700",
+          "icon": "icon66",
+          "shortDescription": "People feel losses more strongly than equivalent gains",
+          "featureFlag": null
+        },
+        {
+          "id": "porter-five-forces",
+          "title": "Porter's Five Forces",
+          "category": "cat12",
+          "bgColor": "bg-sky-700",
+          "icon": "icon67",
+          "shortDescription": "Framework for analyzing competitive forces in an industry",
+          "featureFlag": null
+        },
+        {
+          "id": "swot-analysis",
+          "title": "SWOT Analysis",
+          "category": "cat12",
+          "bgColor": "bg-zinc-700",
+          "icon": "icon68",
+          "shortDescription": "Strategic planning tool examining Strengths, Weaknesses, Opportunities, Threats",
+          "featureFlag": null
+        },
+        {
+          "id": "value-chain",
+          "title": "Value Chain Analysis",
+          "category": "cat12",
+          "bgColor": "bg-slate-700",
+          "icon": "icon69",
+          "shortDescription": "Framework for identifying competitive advantages through business activities",
+          "featureFlag": null
+        }
+      ]
+    }
+  },  "contentDetails": {
+    "sectionAlpha": {
+      "peak-end-rule": {
+        "title": "Peak-End Rule",
+        "category": "discovery",
+        "overview": "The Peak-End Rule states that people judge an experience largely based on how they felt at its peak and at its end, rather than the total sum or average of every moment of the experience. This cognitive bias significantly impacts how users remember and evaluate their interactions with products.",
+        "keyPrinciples": [
+          "Peak moments create lasting impressions that outweigh the overall experience",
+          "The ending of an experience has disproportionate impact on memory",
+          "Duration neglect means users don't accurately remember how long experiences lasted",
+          "Positive peaks and endings can overcome negative aspects of the journey"
+        ],
+        "applicationInPM": [
+          "Design onboarding flows that end on a high note with early wins",
+          "Create peak moments of delight throughout the user journey",
+          "Ensure customer support interactions conclude positively",
+          "Plan product launches with memorable peaks and strong conclusions",
+          "Use the rule when collecting user feedback - timing matters"
+        ],
+        "examples": [
+          "Netflix ending episodes on cliffhangers to create positive anticipation",
+          "Uber's thank you message and trip summary after rides",
+          "Slack's celebratory animations when teams reach milestones",
+          "Apple's unboxing experience designed as a peak moment"
+        ],
+        "commonMistakes": [
+          "Focusing only on averages when measuring user satisfaction",
+          "Neglecting the importance of how experiences conclude",
+          "Creating peaks too early in the journey without strong endings",
+          "Assuming users accurately remember the duration of experiences"
+        ],
+        "relatedConcepts": [
+          "Recency bias",
+          "Duration neglect",
+          "Customer journey mapping",
+          "User experience design"
+        ]
+      },
+      "law-of-validation": {
+        "title": "Law of Validation",
+        "category": "discovery",
+        "overview": "The Law of Validation emphasizes that assumptions must be validated with real user data and evidence before making significant product decisions. This principle helps product managers avoid building features or products that users don't actually want or need.",
+        "keyPrinciples": [
+          "Assumptions are hypotheses that need testing, not facts",
+          "User behavior often differs from what users say they'll do",
+          "Early validation saves time and resources",
+          "Multiple validation methods provide stronger evidence"
+        ],
+        "applicationInPM": [
+          "Create testable hypotheses for all major product decisions",
+          "Use prototypes and MVPs to validate concepts quickly",
+          "Conduct user interviews and usability testing",
+          "Analyze user behavior data and metrics",
+          "A/B test features before full rollout"
+        ],
+        "examples": [
+          "Dropbox's video prototype that validated demand before building the product",
+          "Buffer's landing page experiment to test interest in their scheduling tool",
+          "Zappos' initial model of manually fulfilling orders to validate the online shoe market",
+          "Instagram's focus on photo-sharing after validating that users loved the photo features of Burbn"
+        ],
+        "commonMistakes": [
+          "Confusing validation with confirmation bias",
+          "Only validating with internal stakeholders",
+          "Asking users what they want instead of observing what they do",
+          "Skipping validation for 'obvious' features"
+        ],
+        "relatedConcepts": [
+          "MVP (Minimum Viable Product)",
+          "Lean Startup methodology",
+          "User research",
+          "Hypothesis-driven development"
+        ]
+      },
+      "aesthetic-usability-effect": {
+        "title": "Aesthetic-Usability Effect",
+        "category": "ux",
+        "overview": "The Aesthetic-Usability Effect describes the tendency for users to perceive more aesthetically pleasing designs as easier to use, even when they are not necessarily more functional. This cognitive bias significantly impacts user perceptions and tolerance for usability issues.",
+        "keyPrinciples": [
+          "Visual appeal influences perceived usability",
+          "Users are more tolerant of minor usability issues in attractive interfaces",
+          "First impressions matter significantly",
+          "Aesthetic design creates positive emotional responses"
+        ],
+        "applicationInPM": [
+          "Invest in visual design alongside functionality",
+          "Ensure consistent visual language across the product",
+          "Prioritize the design of key user touchpoints",
+          "Use aesthetics to build trust and credibility",
+          "Balance beauty with actual usability"
+        ],
+        "examples": [
+          "Apple's products being perceived as more intuitive due to their design",
+          "Airbnb's focus on beautiful photography improving perceived ease of use",
+          "Stripe's clean design making payment processing feel more trustworthy",
+          "Notion's aesthetic interface making complex functionality feel approachable"
+        ],
+        "commonMistakes": [
+          "Prioritizing aesthetics over actual usability",
+          "Assuming good looks can fix fundamental usability problems",
+          "Neglecting accessibility in pursuit of beauty",
+          "Creating designs that look good but are hard to use"
+        ],
+        "relatedConcepts": [
+          "Halo effect",
+          "Visual hierarchy",
+          "User interface design",
+          "Cognitive bias"
+        ]
+      }
+    },    "sectionBeta": {
+      "product-vision-canvas": {
+        "title": "Product Vision Canvas",
+        "category": "strategy",
+        "overview": "The Product Vision Canvas is a strategic tool that helps product teams align on the product vision, target users, and business goals. It provides a structured way to articulate and communicate the product strategy.",
+        "keyPrinciples": [
+          "Clear vision drives better decision-making",
+          "Alignment reduces wasted effort",
+          "Visual representation aids understanding",
+          "Regular revision keeps strategy current"
+        ],
+        "applicationInPM": [
+          "Use during product strategy sessions",
+          "Share with stakeholders for alignment",
+          "Reference when making feature decisions",
+          "Update as market conditions change",
+          "Onboard new team members with the canvas"
+        ],
+        "examples": [
+          "Tesla's vision of sustainable transport informing all product decisions",
+          "Spotify's vision of giving everyone access to music guiding feature development",
+          "Slack's vision of making work simpler and more productive"
+        ],
+        "commonMistakes": [
+          "Creating visions that are too vague or generic",
+          "Setting and forgetting the vision",
+          "Not involving the whole team in vision creation",
+          "Confusing vision with features"
+        ],
+        "relatedConcepts": [
+          "Product strategy",
+          "Business model canvas",
+          "OKRs",
+          "Strategic planning"
+        ]
+      },
+      "business-model-canvas": {
+        "title": "Business Model Canvas",
+        "category": "strategy",
+        "overview": "The Business Model Canvas is a visual framework for developing, documenting, and understanding business models. It breaks down a business model into nine essential components.",
+        "keyPrinciples": [
+          "Visual representation simplifies complex business models",
+          "Nine key components cover all aspects of business",
+          "Iterative design enables business model evolution",
+          "Shared understanding among stakeholders"
+        ],
+        "applicationInPM": [
+          "Map out current business model",
+          "Explore new business model opportunities",
+          "Validate business model assumptions",
+          "Communicate strategy to stakeholders",
+          "Identify dependencies and risks"
+        ],
+        "examples": [
+          "Netflix's evolution from DVD rental to streaming platform",
+          "Uber's platform business model connecting riders and drivers",
+          "Freemium models like Spotify or Dropbox"
+        ],
+        "commonMistakes": [
+          "Treating the canvas as a one-time exercise",
+          "Not validating key assumptions",
+          "Focusing too much on the tool rather than insights",
+          "Neglecting external market forces"
+        ],
+        "relatedConcepts": [
+          "Lean Canvas",
+          "Value proposition design",
+          "Platform business models",
+          "Revenue models"
+        ]
+      },
+      "rice-scoring": {
+        "title": "RICE Scoring",
+        "category": "prioritization",
+        "overview": "RICE is a prioritization framework that evaluates initiatives based on four criteria: Reach (how many users), Impact (effect on users), Confidence (certainty of estimates), and Effort (resources required).",
+        "keyPrinciples": [
+          "Quantitative approach reduces bias in prioritization",
+          "Four dimensions provide comprehensive evaluation",
+          "Scoring enables comparison across different types of initiatives",
+          "Regular re-evaluation keeps priorities current"
+        ],
+        "applicationInPM": [
+          "Prioritize feature development roadmap",
+          "Compare initiatives across different product areas",
+          "Allocate limited development resources",
+          "Communicate prioritization rationale to stakeholders",
+          "Make data-driven roadmap decisions"
+        ],
+        "examples": [
+          "Prioritizing new features vs. technical improvements",
+          "Comparing user acquisition vs. retention initiatives",
+          "Evaluating platform expansion opportunities"
+        ],
+        "commonMistakes": [
+          "Using precise numbers for inherently uncertain estimates",
+          "Not updating scores as new information becomes available",
+          "Ignoring strategic initiatives that don't score well",
+          "Over-relying on the framework without considering context"
+        ],
+        "relatedConcepts": [
+          "MoSCoW method",
+          "Kano model",
+          "Opportunity scoring",
+          "Value vs effort matrix"
+        ]
+      },
+      "jobs-to-be-done": {
+        "title": "Jobs-to-be-Done",
+        "category": "discovery",
+        "overview": "Jobs-to-be-Done is a framework for understanding the underlying motivations behind customer behavior by focusing on the 'job' customers are trying to accomplish when they use a product.",
+        "keyPrinciples": [
+          "Customers hire products to do specific jobs",
+          "Jobs are functional, emotional, and social",
+          "Competition is anything that solves the same job",
+          "Innovation opportunities exist in job satisfaction gaps"
+        ],
+        "applicationInPM": [
+          "Identify unmet customer needs",
+          "Define product positioning and messaging",
+          "Guide feature development priorities",
+          "Analyze competitive landscape",
+          "Validate product-market fit"
+        ],
+        "examples": [
+          "Netflix helping people 'kill time' and 'be entertained'",
+          "Uber solving the job of 'getting from A to B quickly'",
+          "Instagram helping people 'share moments' and 'stay connected'"
+        ],
+        "commonMistakes": [
+          "Confusing jobs with features or solutions",
+          "Focusing only on functional jobs, ignoring emotional/social aspects",
+          "Not identifying the complete job story",
+          "Assuming all customers have the same job"
+        ],
+        "relatedConcepts": [
+          "User story mapping",
+          "Customer journey mapping",
+          "Outcome-driven innovation",
+          "Design thinking"
+        ]
+      },
+      "design-thinking": {
+        "title": "Design Thinking",
+        "category": "discovery",
+        "overview": "Design Thinking is a human-centered approach to innovation that integrates the needs of people, the possibilities of technology, and requirements for business success.",
+        "keyPrinciples": [
+          "Human-centered approach puts users first",
+          "Iterative process enables continuous learning",
+          "Collaborative methodology involves diverse perspectives",
+          "Prototype early and often to validate ideas"
+        ],
+        "applicationInPM": [
+          "Discover unmet user needs through empathy",
+          "Define problem statements clearly",
+          "Generate innovative solution ideas",
+          "Prototype and test concepts quickly",
+          "Implement solutions based on user feedback"
+        ],
+        "examples": [
+          "Airbnb's focus on host and guest experience design",
+          "IDEO's approach to product innovation",
+          "Google's user-centered design process"
+        ],
+        "commonMistakes": [
+          "Rushing through the empathy phase",
+          "Not involving actual users in the process",
+          "Creating prototypes that are too polished for testing",
+          "Treating it as a linear rather than iterative process"
+        ],
+        "relatedConcepts": [
+          "Human-centered design",
+          "Lean UX",
+          "User research",
+          "Agile development"
+        ]
+      }
+    },    "sectionGamma": {
+      "supply-demand": {
+        "title": "Supply and Demand",
+        "category": "microeconomics",
+        "overview": "Supply and demand is a fundamental economic model that explains how prices are determined in a market economy. For product managers, understanding this model helps in pricing decisions, market analysis, and predicting user behavior.",
+        "keyPrinciples": [
+          "Price is determined by the intersection of supply and demand",
+          "Scarcity increases value",
+          "Market equilibrium is dynamic",
+          "External factors can shift supply and demand curves"
+        ],
+        "applicationInPM": [
+          "Pricing strategy development",
+          "Understanding market dynamics",
+          "Predicting user adoption patterns",
+          "Resource allocation decisions",
+          "Competitive analysis"
+        ],
+        "examples": [
+          "Surge pricing in ride-sharing apps during high demand",
+          "Limited edition product releases creating artificial scarcity",
+          "Freemium models balancing free supply with paid demand",
+          "Platform marketplaces managing supply and demand sides"
+        ],
+        "commonMistakes": [
+          "Ignoring demand when increasing supply",
+          "Assuming infinite demand for quality products",
+          "Not considering substitute products",
+          "Misunderstanding price elasticity"
+        ],
+        "relatedConcepts": [
+          "Market equilibrium",
+          "Price elasticity",
+          "Network effects",
+          "Platform economics"
+        ]
+      },
+      "opportunity-cost": {
+        "title": "Opportunity Cost",
+        "category": "microeconomics",
+        "overview": "Opportunity cost represents the value of the best alternative forgone when making a choice. For product managers, this concept is crucial for resource allocation and prioritization decisions.",
+        "keyPrinciples": [
+          "Every choice involves giving up alternatives",
+          "True cost includes both explicit and implicit costs",
+          "Resources are finite and require trade-offs",
+          "Optimal decisions consider all alternatives"
+        ],
+        "applicationInPM": [
+          "Feature prioritization and roadmap planning",
+          "Resource allocation across projects",
+          "Technical debt vs new feature decisions",
+          "Team capacity planning",
+          "Investment in growth vs retention"
+        ],
+        "examples": [
+          "Choosing to build new features instead of improving performance",
+          "Hiring engineers vs marketers with limited budget",
+          "Entering new markets vs deepening existing ones",
+          "Building in-house vs buying third-party solutions"
+        ],
+        "commonMistakes": [
+          "Only considering obvious costs, ignoring hidden ones",
+          "Not quantifying the value of alternatives",
+          "Making decisions without considering trade-offs",
+          "Focusing on sunk costs instead of future opportunities"
+        ],
+        "relatedConcepts": [
+          "Sunk cost fallacy",
+          "Pareto principle",
+          "Resource allocation",
+          "Decision frameworks"
+        ]
+      },
+      "first-principles": {
+        "title": "First Principles Thinking",
+        "category": "thinking",
+        "overview": "First principles thinking involves breaking down complex problems into their most fundamental truths and building up solutions from there, rather than reasoning by analogy.",
+        "keyPrinciples": [
+          "Question assumptions and conventional wisdom",
+          "Break problems down to fundamental truths",
+          "Build solutions from the ground up",
+          "Challenge existing paradigms"
+        ],
+        "applicationInPM": [
+          "Reimagining product categories and user experiences",
+          "Questioning industry best practices",
+          "Solving problems with novel approaches",
+          "Identifying new market opportunities",
+          "Making strategic technology decisions"
+        ],
+        "examples": [
+          "Tesla reimagining cars as computers on wheels",
+          "Uber questioning the need for taxi medallions",
+          "Netflix moving from physical to digital distribution",
+          "Stripe simplifying online payments from first principles"
+        ],
+        "commonMistakes": [
+          "Accepting industry conventions without question",
+          "Reasoning purely by analogy to existing solutions",
+          "Not digging deep enough into fundamental truths",
+          "Ignoring practical constraints when rebuilding"
+        ],
+        "relatedConcepts": [
+          "Systems thinking",
+          "Design thinking",
+          "Innovation frameworks",
+          "Problem definition"
+        ]
+      },
+      "systems-thinking": {
+        "title": "Systems Thinking",
+        "category": "systems",
+        "overview": "Systems thinking is a holistic approach to analysis that focuses on the way that a system's constituent parts interrelate and how systems work over time and within the context of larger systems.",
+        "keyPrinciples": [
+          "The whole is greater than the sum of its parts",
+          "Structure drives behavior",
+          "Systems have purpose and function",
+          "Causality is circular, not linear"
+        ],
+        "applicationInPM": [
+          "Understanding product ecosystem interdependencies",
+          "Identifying unintended consequences of changes",
+          "Designing sustainable product strategies",
+          "Managing complex stakeholder relationships",
+          "Optimizing user journey across touchpoints"
+        ],
+        "examples": [
+          "Apple's ecosystem of interconnected devices and services",
+          "Amazon's flywheel effect connecting customers, selection, and experience",
+          "Platform businesses creating network effects",
+          "Freemium models where free users attract paid users"
+        ],
+        "commonMistakes": [
+          "Optimizing parts without considering the whole system",
+          "Ignoring feedback loops and delayed effects",
+          "Focusing on events rather than underlying patterns",
+          "Not considering system boundaries and environment"
+        ],
+        "relatedConcepts": [
+          "Feedback loops",
+          "Network effects",
+          "Leverage points",
+          "Complex adaptive systems"
+        ]
+      },
+      "cognitive-biases": {
+        "title": "Cognitive Biases",
+        "category": "human nature",
+        "overview": "Cognitive biases are systematic errors in thinking that affect the decisions and judgments that people make. Understanding these biases helps product managers make better decisions and design better user experiences.",
+        "keyPrinciples": [
+          "Human thinking is systematically flawed",
+          "Biases affect both users and product teams",
+          "Awareness can help mitigate bias effects",
+          "Design can either exploit or counteract biases"
+        ],
+        "applicationInPM": [
+          "Designing user interfaces that account for user biases",
+          "Making better product decisions by recognizing team biases",
+          "Conducting more objective user research",
+          "Creating ethical persuasion in product design",
+          "Improving decision-making processes"
+        ],
+        "examples": [
+          "Confirmation bias affecting user research interpretation",
+          "Anchoring bias influencing pricing perception",
+          "Loss aversion driving freemium conversion strategies",
+          "Social proof in user onboarding and testimonials"
+        ],
+        "commonMistakes": [
+          "Assuming rational user behavior",
+          "Not recognizing own biases in decision-making",
+          "Exploiting biases unethically",
+          "Ignoring cultural differences in bias expression"
+        ],
+        "relatedConcepts": [
+          "Behavioral economics",
+          "User psychology",
+          "Persuasive design",
+          "Decision science"
+        ]
+      }
+    }
+  }
+}
