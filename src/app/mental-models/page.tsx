@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { UXLawCard } from "@/components/UXLawCard";
-import { getPageConfig, getFilteredCards } from "@/data/configService";
+import { getPageConfig, getFilteredCards, mapRouteToSection } from "@/data/configService";
 import { Pagination } from "@/components/Pagination";
 
 export default function MentalModelsPage() {
@@ -13,7 +13,8 @@ export default function MentalModelsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const pageConfig = getPageConfig("mental-models");
+  const sectionId = mapRouteToSection("mental-models");
+  const pageConfig = getPageConfig(sectionId as keyof typeof import("@/config/appConfig.json").pages);
   
   // Map to get category ID from display text
   const getCategoryId = (categoryText: string): string => {
@@ -23,7 +24,7 @@ export default function MentalModelsPage() {
   };
   
   const categoryId = getCategoryId(activeCategory);
-  const filteredModels = getFilteredCards("mental-models", categoryId);
+  const filteredModels = getFilteredCards(sectionId as keyof typeof import("@/config/appConfig.json").pages, categoryId);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedModels = filteredModels.slice(startIndex, startIndex + itemsPerPage);
 

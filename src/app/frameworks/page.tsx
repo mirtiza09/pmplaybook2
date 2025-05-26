@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { UXLawCard } from "@/components/UXLawCard";
-import { getPageConfig, getFilteredCards } from "@/data/configService";
+import { getPageConfig, getFilteredCards, mapRouteToSection } from "@/data/configService";
 import { Pagination } from "@/components/Pagination";
 
 export default function FrameworksPage() {
@@ -13,8 +13,9 @@ export default function FrameworksPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const pageConfig = getPageConfig("frameworks");
-  const filteredFrameworks = getFilteredCards("frameworks", activeCategory);
+  const sectionId = mapRouteToSection("frameworks");
+  const pageConfig = getPageConfig(sectionId as keyof typeof import("@/config/appConfig.json").pages);
+  const filteredFrameworks = getFilteredCards(sectionId as keyof typeof import("@/config/appConfig.json").pages, activeCategory);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedFrameworks = filteredFrameworks.slice(startIndex, startIndex + itemsPerPage);
 

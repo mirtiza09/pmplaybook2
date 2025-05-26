@@ -6,6 +6,8 @@ const ROUTE_TO_SECTION_MAP: Record<string, string> = {
   "yield-farming": "sectionBeta",
   "trading-tools": "sectionGamma", 
   "defi-concepts": "sectionDelta",
+  "mental-models": "sectionDelta", // Temporary mapping to fix build error
+  "frameworks": "sectionDelta", // Temporary mapping to fix build error
   "about": "about",
   // Direct section IDs (for backwards compatibility)
   "sectionAlpha": "sectionAlpha",
@@ -141,14 +143,14 @@ export interface PageConfig {
 // Color utilities
 export const getColorByCategory = (category: string, variant: 'primary' | 'secondary' | 'tertiary' | 'accent' = 'primary'): string => {
   const categoryColors = config.colorPalette.categories[category as keyof typeof config.colorPalette.categories];
-  return categoryColors?.[variant] || config.colorPalette.presets.neutral[0];
+  return categoryColors?.[variant] || config.colorPalette.presets.governance[0];
 };
 
 export const getCategoryGradient = (category: string): string => {
   return config.colorPalette.gradients[category as keyof typeof config.colorPalette.gradients] || "from-gray-900 to-gray-800";
 };
 
-export const getColorPreset = (presetName: 'warm' | 'cool' | 'neutral' | 'vibrant'): string[] => {
+export const getColorPreset = (presetName: 'defi' | 'trading' | 'staking' | 'governance'): string[] => {
   return config.colorPalette.presets[presetName];
 };
 
@@ -204,8 +206,8 @@ export const getFilteredCards = (pageKey: keyof typeof config.pages, category: s
 
 // Get card detail content
 export const getCardContent = (pageKey: keyof typeof config.pages, cardId: string) => {
-  const contentSection = config.contentDetails[pageKey] as Record<string, unknown>;
-  return contentSection?.[cardId] || null;
+  const contentSection = config.contentDetails[pageKey as keyof typeof config.contentDetails];
+  return contentSection?.[cardId as keyof typeof contentSection] || null;
 };
 
 // Export config for direct access
@@ -254,9 +256,7 @@ export const colorUtils = {
       issues
     };
   },
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getSmartColorForCard: (card: any, existingCards: any[] = []): string => {
+  getSmartColorForCard: (card: Pick<Card, 'category'>, existingCards: Pick<Card, 'category' | 'bgColor'>[] = []): string => {
     // Get colors already used in the same category
     const usedColorsInCategory = existingCards
       .filter(c => c.category === card.category && c.bgColor)
@@ -277,14 +277,12 @@ export const colorUtils = {
       const unusedColor = availableColors.find(color => !usedColorsInCategory.includes(color));
       if (unusedColor) {
         return unusedColor;
-      }
-
-      // If all are used, return primary
+      }      // If all are used, return primary
       return categoryColors.primary;
     }
 
-    // Fallback to neutral color
-    return config.colorPalette.presets.neutral[0];
+    // Fallback to governance color
+    return config.colorPalette.presets.governance[0];
   }
 };
 
@@ -323,7 +321,7 @@ export const verifyAllCardsHaveColors = (): { isValid: boolean; report: string }
   const allPages = Object.keys(config.pages) as (keyof typeof config.pages)[];
   let totalCards = 0;
   let cardsWithColors = 0;
-  let missingColorCards: string[] = [];
+  const missingColorCards: string[] = [];
 
   allPages.forEach(pageKey => {
     const pageData = config.pages[pageKey];

@@ -14,13 +14,12 @@ interface ItemDetailPageProps {
 
 export default function ItemDetailPage({ params }: ItemDetailPageProps) {
   const { sectionId, itemId } = use(params);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [cardData, setCardData] = useState<any>(null);  useEffect(() => {
+  const [cardData, setCardData] = useState<unknown>(null);  useEffect(() => {
     try {
       // Map URL segments to config keys using the helper function
       const configKey = mapRouteToSection(sectionId);
       
-      const content = getCardContent(configKey as any, itemId);
+      const content = getCardContent(configKey as keyof typeof import("@/data/configService").config.pages, itemId);
       setCardData(content);
     } catch (error) {
       console.error("Error loading card content:", error);

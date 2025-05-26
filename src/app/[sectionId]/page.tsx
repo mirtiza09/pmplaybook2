@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { DirectoryItemCard } from "@/components/DirectoryItemCard";
 import { Pagination } from "@/components/Pagination";
-import { getPageConfig, getFilteredCards, mapRouteToSection } from "@/data/configService";
+import { getPageConfig, getFilteredCards, mapRouteToSection, PageConfig } from "@/data/configService";
 import { Card } from "@/data/configService";
 
 interface SectionPageProps {
@@ -20,30 +20,26 @@ export default function SectionPage({ params }: SectionPageProps) {
   
   const [activeCategory, setActiveCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
-  const [filteredCards, setFilteredCards] = useState<Card[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [pageConfig, setPageConfig] = useState<any>(null);
+  const itemsPerPage = 9;  const [filteredCards, setFilteredCards] = useState<Card[]>([]);
+  const [pageConfig, setPageConfig] = useState<PageConfig | null>(null);
   // Extract categories from tabs - memoized to prevent recreating array
   const categories = useMemo(() => {
     if (!pageConfig?.tabs) return [];
     return pageConfig.tabs.map((tab: { id: string; text: string }) => tab.text);
   }, [pageConfig?.tabs]);
   // Map to get category ID from display text
-  const getCategoryId = (categoryText: string, config: any): string => {
+  const getCategoryId = (categoryText: string, config: PageConfig | null): string => {
     if (categoryText === "ALL") return "all";
     const tab = config?.tabs?.find((tab: { id: string; text: string }) => tab.text === categoryText);
     return tab?.id || categoryText.toLowerCase();
   };  useEffect(() => {
-    try {
-      // Map URL segments to config keys using the helper function
+    try {      // Map URL segments to config keys using the helper function
       const configKey = mapRouteToSection(sectionId);
       
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const config = getPageConfig(configKey as any);
-      setPageConfig(config);      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const config = getPageConfig(configKey as keyof typeof import("@/data/configService").config.pages);
+      setPageConfig(config);
       const categoryId = getCategoryId(activeCategory, config);
-      const cards = getFilteredCards(configKey as any, categoryId);
+      const cards = getFilteredCards(configKey as keyof typeof import("@/data/configService").config.pages, categoryId);
       setFilteredCards(cards);
     } catch (error) {
       console.error("Error loading page config:", error);
