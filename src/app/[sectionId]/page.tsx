@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { DirectoryItemCard } from "@/components/DirectoryItemCard";
 import { Pagination } from "@/components/Pagination";
-import { getPageConfig, getFilteredCards } from "@/data/configService";
+import { getPageConfig, getFilteredCards, mapRouteToSection } from "@/data/configService";
 import { Card } from "@/data/configService";
 
 interface SectionPageProps {
@@ -34,19 +34,14 @@ export default function SectionPage({ params }: SectionPageProps) {
     if (categoryText === "ALL") return "all";
     const tab = config?.tabs?.find((tab: { id: string; text: string }) => tab.text === categoryText);
     return tab?.id || categoryText.toLowerCase();
-  };
-
-  useEffect(() => {
+  };  useEffect(() => {
     try {
-      // Map sectionId to config keys for backwards compatibility
-      let configKey = sectionId;
-      if (sectionId === "sectionAlpha") configKey = "sectionAlpha";
-      if (sectionId === "sectionBeta") configKey = "sectionBeta";
-      if (sectionId === "sectionGamma") configKey = "sectionGamma";
+      // Map URL segments to config keys using the helper function
+      const configKey = mapRouteToSection(sectionId);
+      
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const config = getPageConfig(configKey as any);
-      setPageConfig(config);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setPageConfig(config);      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const categoryId = getCategoryId(activeCategory, config);
       const cards = getFilteredCards(configKey as any, categoryId);
       setFilteredCards(cards);
@@ -54,6 +49,9 @@ export default function SectionPage({ params }: SectionPageProps) {
       console.error("Error loading page config:", error);
     }
   }, [sectionId, activeCategory]);
+
+  // Get the mapped config key for this route
+  const configKey = mapRouteToSection(sectionId);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -83,9 +81,7 @@ export default function SectionPage({ params }: SectionPageProps) {
             setActiveCategory={setActiveCategory}
             categories={categories}
           />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        </div>        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {paginatedItems.map((card) => (
             <DirectoryItemCard
               key={card.id}
@@ -95,7 +91,7 @@ export default function SectionPage({ params }: SectionPageProps) {
               bgColor={card.bgColor}
               icon={<card.icon />}
               category={card.category}
-              sectionId={sectionId}
+              sectionId={configKey}
             />
           ))}
         </div>

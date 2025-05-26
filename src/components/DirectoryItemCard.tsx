@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePostHog } from "posthog-js/react";
 import { useEffect, useState } from "react";
-import { getCategoryDisplayName } from "@/data/configService";
+import { getCategoryDisplayName, mapSectionToRoute } from "@/data/configService";
 
 interface DirectoryItemCardProps {
   id: string;
@@ -154,9 +154,8 @@ export function DirectoryItemCard({
       </div>
     );
   }
-
   return (    <Link 
-      href={`/${sectionId}/${id}`} 
+      href={`/${mapSectionToRoute(sectionId)}/${id}`} 
       className="block h-full"
       onClick={handleCardClick}
     >

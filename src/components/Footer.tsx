@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { usePostHog } from "posthog-js/react";
 import { FeedbackDialog } from "./FeedbackDialog"; // Added import for FeedbackDialog
+import config from "@/config/appConfig.json";
 
 
 function NewsletterSubscription() {
@@ -10,7 +11,7 @@ function NewsletterSubscription() {
   const [message, setMessage] = useState("");
   const posthog = usePostHog();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (posthog) {
       posthog.capture("newsletter_subscribe_clicked", {
@@ -31,7 +32,7 @@ function NewsletterSubscription() {
       setMessage("Thank you for subscribing!");
       setEmail("");
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      setMessage(`Error: ${error instanceof Error ? error.message : 'An error occurred'}`);
     }
   };
 
@@ -73,9 +74,9 @@ export function Footer() {
         <NewsletterSubscription />
         <FeedbackDialog />
         <p>
-          PM Playbook @{" "}
+          {config.footer.brandText} @{" "}
           <a
-            href="https://www.mirtiza.com/"
+            href={config.footer.authorUrl}
             className="hover:underline"
             onClick={(e) => {
               e.preventDefault();
@@ -87,12 +88,12 @@ export function Footer() {
                 });
                 // Small delay to ensure event is sent before navigation
                 setTimeout(() => {
-                  window.location.href = "https://www.mirtiza.com/";
+                  window.location.href = config.footer.authorUrl;
                 }, 100);
               }
             }}
           >
-            Muhammad Irtiza
+            {config.footer.authorName}
           </a>{" "}
           {new Date().getFullYear()}
         </p>

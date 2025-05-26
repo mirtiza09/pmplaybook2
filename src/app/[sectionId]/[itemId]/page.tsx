@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
-import { getCardContent } from "@/data/configService";
+import { getCardContent, mapRouteToSection } from "@/data/configService";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -15,15 +15,10 @@ interface ItemDetailPageProps {
 export default function ItemDetailPage({ params }: ItemDetailPageProps) {
   const { sectionId, itemId } = use(params);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [cardData, setCardData] = useState<any>(null);
-
-  useEffect(() => {
+  const [cardData, setCardData] = useState<any>(null);  useEffect(() => {
     try {
-      // Map sectionId to config keys for backwards compatibility
-      let configKey = sectionId;
-      if (sectionId === "sectionAlpha") configKey = "sectionAlpha";
-      if (sectionId === "sectionBeta") configKey = "sectionBeta";
-      if (sectionId === "sectionGamma") configKey = "sectionGamma";
+      // Map URL segments to config keys using the helper function
+      const configKey = mapRouteToSection(sectionId);
       
       const content = getCardContent(configKey as any, itemId);
       setCardData(content);

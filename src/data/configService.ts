@@ -1,5 +1,36 @@
 import config from "@/config/appConfig.json";
 
+// Route mapping utilities
+const ROUTE_TO_SECTION_MAP: Record<string, string> = {
+  "protocols": "sectionAlpha",
+  "yield-farming": "sectionBeta",
+  "trading-tools": "sectionGamma", 
+  "defi-concepts": "sectionDelta",
+  "about": "about",
+  // Direct section IDs (for backwards compatibility)
+  "sectionAlpha": "sectionAlpha",
+  "sectionBeta": "sectionBeta",
+  "sectionGamma": "sectionGamma",
+  "sectionDelta": "sectionDelta"
+};
+
+const SECTION_TO_ROUTE_MAP: Record<string, string> = {
+  "sectionAlpha": "protocols",
+  "sectionBeta": "yield-farming",
+  "sectionGamma": "trading-tools",
+  "sectionDelta": "defi-concepts",
+  "about": "about"
+};
+
+// Helper functions for route mapping
+export const mapRouteToSection = (routeSegment: string): string => {
+  return ROUTE_TO_SECTION_MAP[routeSegment] || routeSegment;
+};
+
+export const mapSectionToRoute = (sectionId: string): string => {
+  return SECTION_TO_ROUTE_MAP[sectionId] || sectionId;
+};
+
 // Icon mapping - generic icon system
 import {
   AestheticUsabilityIcon,
