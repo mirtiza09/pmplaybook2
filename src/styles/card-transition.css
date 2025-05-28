@@ -1,0 +1,77 @@
+/* Modern Card Transition System */
+:root {
+  --card-transition-duration: 500ms;
+  --card-transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-transitioning {
+  --start-x: 0;
+  --start-y: 0;
+  --start-width: 0;
+  --start-height: 0;
+  --end-x: 0;
+  --end-y: 0;
+  --end-width: auto;
+  --end-height: auto;
+  
+  transition: transform var(--card-transition-duration) var(--card-transition-timing),
+              opacity var(--card-transition-duration) var(--card-transition-timing);
+}
+
+.shared-element-transition {
+  view-transition-name: card-element;
+}
+
+@supports (view-transition-name: card-element) {
+  .card-transitioning {
+    view-transition-name: card-element;
+  }
+  
+  ::view-transition-old(card-element),
+  ::view-transition-new(card-element) {
+    animation-duration: var(--card-transition-duration);
+    animation-timing-function: var(--card-transition-timing);
+  }
+}
+
+/* Fallback for browsers without View Transition API */
+@media (prefers-reduced-motion: no-preference) {
+  .card-smooth-enter {
+    animation: cardEnter var(--card-transition-duration) var(--card-transition-timing) forwards;
+  }
+  
+  @keyframes cardEnter {
+    from {
+      transform: scale(0.95) translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+/* Content stagger animations */
+.content-stagger-1 {
+  animation: contentStagger var(--card-transition-duration) var(--card-transition-timing) 100ms both;
+}
+
+.content-stagger-2 {
+  animation: contentStagger var(--card-transition-duration) var(--card-transition-timing) 200ms both;
+}
+
+.content-stagger-3 {
+  animation: contentStagger var(--card-transition-duration) var(--card-transition-timing) 300ms both;
+}
+
+@keyframes contentStagger {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

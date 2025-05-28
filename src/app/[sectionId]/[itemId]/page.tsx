@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useRef } from "react";
 import { getCardContent, mapRouteToSection, getPageConfig, getCategoryDisplayName } from "@/data/configService";
 import { ArrowLeft, Lightbulb, Key, CheckCircle, AlertTriangle, Network, Target, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { DirectoryItemCard } from "@/components/DirectoryItemCard";
+import { useRouter } from "next/navigation";
 
 interface ItemDetailPageProps {
   params: Promise<{
@@ -15,31 +16,145 @@ interface ItemDetailPageProps {
 
 export default function ItemDetailPage({ params }: ItemDetailPageProps) {
   const { sectionId, itemId } = use(params);
+  const router = useRouter();
+
   const [cardData, setCardData] = useState<any>(null);
   const [cardMetadata, setCardMetadata] = useState<any>(null);
-  const [configKey, setConfigKey] = useState<string>("");
+  const [configKey, setConfigKey] = useState<string>("");  const [isTransitionComplete, setIsTransitionComplete] = useState(false);
+  const [isNavigatingBack, setIsNavigatingBack] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [pendingTransitionData, setPendingTransitionData] = useState<any>(null);
+
   useEffect(() => {
-    try {
-      const configKey = mapRouteToSection(sectionId);
-      const content = getCardContent(configKey as keyof typeof import("@/data/configService").config.pages, itemId);
-      
-      // Get the card metadata (icon, bgColor, etc.) from the page config
-      const pageConfig = getPageConfig(configKey as keyof typeof import("@/data/configService").config.pages);
-      const card = pageConfig.cards.find(c => c.id === itemId);
-      
-      setCardData(content);
-      setCardMetadata(card);
-      setConfigKey(configKey);
-    } catch (error) {
-      console.error("Error loading card content:", error);
-    }
+    const loadContentAndTransition = async () => {
+      try {
+        const configKey = mapRouteToSection(sectionId);
+        const content = getCardContent(configKey as keyof typeof import("@/data/configService").config.pages, itemId);
+        
+        // Get the card metadata (icon, bgColor, etc.) from the page config
+        const pageConfig = getPageConfig(configKey as keyof typeof import("@/data/configService").config.pages);
+        const card = pageConfig.cards.find(c => c.id === itemId);
+        
+        setCardData(content);
+        setCardMetadata(card);
+        setConfigKey(configKey);
+        
+        // Check for transition data and store it for later use
+        const transitionData = sessionStorage.getItem('cardTransition');
+        if (transitionData) {
+          const data = JSON.parse(transitionData);
+          setPendingTransitionData(data);
+          // Clear transition data immediately to prevent reuse
+          sessionStorage.removeItem('cardTransition');
+        } else {
+          // No transition data, show immediately
+          setIsTransitionComplete(true);
+        }
+      } catch (error) {
+        console.error("Error loading card content:", error);
+        setIsTransitionComplete(true);
+      }
+    };
+
+    loadContentAndTransition();
   }, [sectionId, itemId]);
+
+  // Cleanup effect to reset body opacity on component mount
+  useEffect(() => {
+    // Reset body opacity when component mounts (in case we navigated back)
+    document.body.style.opacity = '1';
+    document.body.style.removeProperty('transition');
+    
+    // Cleanup function to reset body styles when component unmounts
+    return () => {
+      document.body.style.opacity = '1';
+      document.body.style.removeProperty('transition');
+    };
+  }, []);
+
+  // Separate effect to handle the card transition after the component is fully rendered
+  useEffect(() => {
+    if (pendingTransitionData && cardRef.current && cardData && cardMetadata) {
+      const data = pendingTransitionData;
+      const cardElement = cardRef.current;
+      
+      // Wait for next frame to ensure the card is fully rendered with content
+      requestAnimationFrame(() => {
+        if (!cardElement) return;
+        
+        const targetRect = cardElement.getBoundingClientRect();
+        
+        // Calculate the exact translation needed
+        const deltaX = data.startX - targetRect.left;
+        const deltaY = data.startY - targetRect.top;
+        const scaleX = data.startWidth / targetRect.width;
+        const scaleY = data.startHeight / targetRect.height;
+        
+        // Set initial transform to match the clicked card's position and size
+        cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+        cardElement.style.transformOrigin = 'top left';
+        cardElement.style.transition = 'none';
+        
+        // Force a reflow to ensure the initial transform is applied
+        cardElement.offsetHeight;
+        
+        // Animate to final position
+        requestAnimationFrame(() => {
+          cardElement.style.transition = 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          cardElement.style.transform = 'translate(0, 0) scale(1, 1)';
+          
+          // Clean up after animation completes
+          setTimeout(() => {
+            cardElement.style.removeProperty('transform');
+            cardElement.style.removeProperty('transform-origin');
+            cardElement.style.removeProperty('transition');
+            setIsTransitionComplete(true);
+            setPendingTransitionData(null);
+          }, 600);
+        });
+      });
+    }
+  }, [pendingTransitionData, cardData, cardMetadata]);  const handleBackClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Set navigating back state to trigger fade out
+    setIsNavigatingBack(true);
+    
+    // Store current card position for potential reverse animation
+    if (cardRef.current) {
+      const cardRect = cardRef.current.getBoundingClientRect();
+      const backTransitionData = {
+        targetX: cardRect.left,
+        targetY: cardRect.top,
+        targetWidth: cardRect.width,
+        targetHeight: cardRect.height,
+        itemId: itemId,
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem('backTransition', JSON.stringify(backTransitionData));
+    }
+    
+    // Add immediate fade out effect for smooth transition
+    document.body.style.opacity = '0.85';
+    document.body.style.transition = 'opacity 100ms ease-out';
+    
+    // Use router.back() for better browser history handling
+    // This prevents any loading states since we're going back to a cached page
+    router.back();
+  };  // Skip loading state for static app - render immediately when data is available
+  // Show content immediately to prevent blank screen during back navigation
   if (!cardData || !cardMetadata) {
+    // Return a minimal skeleton instead of null to avoid blank screen
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-white">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <div>Loading content...</div>
+      <div className="min-h-screen bg-black">
+        <div className="absolute top-6 left-6 z-50">
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors group cursor-pointer"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back
+          </button>
         </div>
       </div>
     );
@@ -171,20 +286,20 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Back Button */}
+    <div className="min-h-screen bg-black text-white">      {/* Back Button */}
       <div className="container mx-auto px-4 py-6">
-        <Link
-          href={`/${sectionId}`}
-          className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
+        <button
+          onClick={handleBackClick}
+          className="inline-flex items-center text-gray-400 hover:text-white transition-colors group cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back
-        </Link>
-      </div>      {/* 2x2 Grid Layout */}
-      <main className="container mx-auto px-4 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
-          {/* TOP LEFT: DirectoryItemCard */}          <div className="order-1 lg:col-span-1">
+        </button>
+      </div>{/* 2x2 Grid Layout */}
+      <main className="container mx-auto px-4 pb-16">        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">          {/* TOP LEFT: DirectoryItemCard */}          <div 
+            ref={cardRef}
+            className="order-1 lg:col-span-1 shared-element-transition"
+          >
             {cardMetadata && cardData && (
               <DirectoryItemCard
                 id={itemId}
@@ -196,10 +311,10 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
                 sectionId={configKey} // Use configKey instead of sectionId for proper category mapping
               />
             )}
-          </div>
-
-          {/* TOP RIGHT: About Section */}
-          <div className="order-2 lg:col-span-3 space-y-6">            {/* Category Tags */}
+          </div>          {/* TOP RIGHT: About Section */}
+          <div className={`order-2 lg:col-span-3 space-y-6 ${
+            isTransitionComplete ? 'content-stagger-1' : 'opacity-0'
+          }`}>{/* Category Tags */}
             {cardMetadata?.category && (
               <div className="flex flex-wrap gap-2">                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-300">
                   {getSectionDisplayName(configKey).toUpperCase()}
@@ -241,9 +356,10 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
             </div>
           </div>
         </div>        {/* Bottom Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* BOTTOM LEFT: Page Navigation */}
-          <div className="order-4 lg:order-3 lg:col-span-1">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">          {/* BOTTOM LEFT: Page Navigation */}
+          <div className={`order-4 lg:order-3 lg:col-span-1 ${
+            isTransitionComplete ? 'content-stagger-2' : 'opacity-0'
+          }`}>
             <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800 sticky top-6">
               <h3 className="text-lg font-semibold mb-4 text-white">Page Navigation</h3>
               <nav className="space-y-2">
@@ -262,7 +378,9 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
               </nav>
             </div>
           </div>          {/* BOTTOM RIGHT: Main Content */}
-          <div className="order-3 lg:order-4 lg:col-span-3">
+          <div className={`order-3 lg:order-4 lg:col-span-3 ${
+            isTransitionComplete ? 'content-stagger-3' : 'opacity-0'
+          }`}>
             <div className="space-y-12">              {/* Key Principles Section */}
               {cardData.keyPrinciples && cardData.keyPrinciples.length > 0 && (
                 <section id="keyPrinciples" className="scroll-mt-6">

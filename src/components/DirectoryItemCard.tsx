@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePostHog } from "posthog-js/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getCategoryDisplayName, mapSectionToRoute } from "@/data/configService";
+import { useRouter } from "next/navigation";
+import "../styles/card-transition.css";
+import "../styles/card-transition.css";
 
 interface DirectoryItemCardProps {
   id: string;
@@ -24,9 +27,12 @@ export function DirectoryItemCard({
   sectionId = "sectionAlpha"
 }: DirectoryItemCardProps) {
   const posthog = usePostHog();
+  const router = useRouter();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   // Get the display name for the category
-  const categoryDisplayName = getCategoryDisplayName(category, sectionId);  // BULLETPROOF COLOR SYSTEM - Complete mapping of ALL Tailwind bg colors to inline styles
+  const categoryDisplayName = getCategoryDisplayName(category, sectionId);// BULLETPROOF COLOR SYSTEM - Complete mapping of ALL Tailwind bg colors to inline styles
   // This bypasses Tailwind's purging entirely and ensures 100% reliability
   const getColorStyle = () => {
     const colorMap: { [key: string]: string } = {
@@ -112,15 +118,43 @@ export function DirectoryItemCard({
     };
 
     return { backgroundColor: colorMap[bgColor] || '#6b7280' }; // Fallback to gray-500 if color not found
-  };
-
-  const handleCardClick = () => {
+  };  const handleCardClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
     posthog?.capture('directory_item_click', {
       item_id: id,
       item_title: title,
       item_category: category,
       section_id: sectionId
     });
+
+    if (!cardRef.current) return;
+
+    // Store transition data in sessionStorage for the destination page
+    const cardRect = cardRef.current.getBoundingClientRect();
+    const transitionData = {
+      startX: cardRect.left,
+      startY: cardRect.top,
+      startWidth: cardRect.width,
+      startHeight: cardRect.height,
+      itemId: id,
+      timestamp: Date.now()
+    };
+    
+    sessionStorage.setItem('cardTransition', JSON.stringify(transitionData));
+    
+    // Add immediate smooth fade and scale effect
+    setIsTransitioning(true);
+    if (cardRef.current) {
+      cardRef.current.style.transition = 'all 200ms cubic-bezier(0.4, 0.0, 0.2, 1)';
+      cardRef.current.style.transform = 'scale(0.96) translateZ(0)';
+      cardRef.current.style.opacity = '0.8';
+    }
+    
+    // Navigate immediately with the transition data
+    setTimeout(() => {
+      router.push(`/${mapSectionToRoute(sectionId)}/${id}`);
+    }, 100);
   };
 
   // Default to clickable (enabled)
@@ -133,9 +167,11 @@ export function DirectoryItemCard({
         setIsDetailsEnabled(flag === undefined ? true : flag);
       });
     }
-  }, [posthog]);
-  if (!isDetailsEnabled) {
-    return (      <div className="block h-full" onClick={handleCardClick}>
+  }, [posthog]);  if (!isDetailsEnabled) {    return (      <div 
+        ref={cardRef}
+        className={`block h-full cursor-pointer shared-element-transition ${isTransitioning ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`} 
+        onClick={handleCardClick}
+      >
         <Card className="overflow-hidden h-full border-none transition-transform duration-300 hover:-translate-y-1 min-h-[240px] bg-zinc-800">
           <div className="p-8 aspect-square flex items-center justify-center" style={getColorStyle()}>
             <div className="w-24 h-24 flex items-center justify-center">
@@ -152,9 +188,9 @@ export function DirectoryItemCard({
         </Card>
       </div>
     );
-  }  return (    <Link 
-      href={`/${mapSectionToRoute(sectionId)}/${id}`} 
-      className="block h-full"
+  }  return (    <div 
+      ref={cardRef}
+      className={`block h-full cursor-pointer shared-element-transition ${isTransitioning ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
       onClick={handleCardClick}
     >
       <Card className="overflow-hidden h-full border-none transition-transform duration-300 hover:-translate-y-1 min-h-[240px] bg-zinc-800">
@@ -171,6 +207,6 @@ export function DirectoryItemCard({
           <p className="text-sm text-muted-foreground">{description}</p>
         </CardContent>
       </Card>
-    </Link>
+    </div>
   );
 }

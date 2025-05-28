@@ -24,7 +24,7 @@ export default function CardsPage() {
   }, [posthog]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return null; // Return null briefly while checking feature flag to prevent flash
   }
 
   if (!isEnabled) {
