@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, use, useRef } from "react";
-import { getCardContent, mapRouteToSection, getPageConfig, getCategoryDisplayName } from "@/data/configService";
+import { getCardContent, mapRouteToSection, getPageConfig, getCategoryDisplayName, Card } from "@/data/configService";
 import { ArrowLeft, Lightbulb, Key, CheckCircle, AlertTriangle, Network, Target, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { DirectoryItemCard } from "@/components/DirectoryItemCard";
@@ -14,29 +14,52 @@ interface ItemDetailPageProps {
   }>;
 }
 
+interface CardContent {
+  title: string;
+  overview?: string;
+  keyPrinciples?: string[];
+  applicationInPM?: string[];
+  applicationInDeFi?: string[];
+  examples?: string[];
+  commonMistakes?: string[];
+  relatedConcepts?: string[];
+}
+
+interface TransitionData {
+  startX: number;
+  startY: number;
+  startWidth: number;
+  startHeight: number;
+}
+
+interface NavigationSection {
+  id: string;
+  label: string;
+}
+
 export default function ItemDetailPage({ params }: ItemDetailPageProps) {
   const { sectionId, itemId } = use(params);
   const router = useRouter();
 
-  const [cardData, setCardData] = useState<any>(null);
-  const [cardMetadata, setCardMetadata] = useState<any>(null);
-  const [configKey, setConfigKey] = useState<string>("");  const [isTransitionComplete, setIsTransitionComplete] = useState(false);
+  const [cardData, setCardData] = useState<CardContent | null>(null);
+  const [cardMetadata, setCardMetadata] = useState<Card | null>(null);
+  const [configKey, setConfigKey] = useState<string>("");
+  const [isTransitionComplete, setIsTransitionComplete] = useState(false);
   const [isNavigatingBack, setIsNavigatingBack] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const [pendingTransitionData, setPendingTransitionData] = useState<any>(null);
+  const [pendingTransitionData, setPendingTransitionData] = useState<TransitionData | null>(null);
 
   useEffect(() => {
     const loadContentAndTransition = async () => {
       try {
         const configKey = mapRouteToSection(sectionId);
         const content = getCardContent(configKey as keyof typeof import("@/data/configService").config.pages, itemId);
-        
-        // Get the card metadata (icon, bgColor, etc.) from the page config
+          // Get the card metadata (icon, bgColor, etc.) from the page config
         const pageConfig = getPageConfig(configKey as keyof typeof import("@/data/configService").config.pages);
         const card = pageConfig.cards.find(c => c.id === itemId);
         
         setCardData(content);
-        setCardMetadata(card);
+        setCardMetadata(card || null);
         setConfigKey(configKey);
         
         // Check for transition data and store it for later use
@@ -94,9 +117,8 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
         cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
         cardElement.style.transformOrigin = 'top left';
         cardElement.style.transition = 'none';
-        
-        // Force a reflow to ensure the initial transform is applied
-        cardElement.offsetHeight;
+          // Force a reflow to ensure the initial transform is applied
+        void cardElement.offsetHeight;
         
         // Animate to final position
         requestAnimationFrame(() => {
@@ -274,16 +296,15 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       'sectionDelta': 'DeFi Concepts'
     };
     return sectionNames[configKey] || configKey;
-  };
-  // Generate navigation sections based on available content
-  const navSections = [
-    cardData.overview && { id: 'overview', label: 'Overview' },
-    cardData.keyPrinciples?.length > 0 && { id: 'keyPrinciples', label: 'Key Principles' },
-    cardData[applicationsKey]?.length > 0 && { id: 'applications', label: 'Applications' },
-    cardData.examples?.length > 0 && { id: 'examples', label: 'Examples' },
-    cardData.commonMistakes?.length > 0 && { id: 'commonMistakes', label: 'Common Mistakes' },
-    cardData.relatedConcepts?.length > 0 && { id: 'relatedConcepts', label: 'Related Concepts' }
-  ].filter(Boolean);
+  };  // Generate navigation sections based on available content
+  const navSections: NavigationSection[] = [
+    cardData?.overview && { id: 'overview', label: 'Overview' },
+    (cardData?.keyPrinciples?.length ?? 0) > 0 && { id: 'keyPrinciples', label: 'Key Principles' },
+    (cardData?.[applicationsKey as keyof CardContent] as string[] | undefined)?.length && { id: 'applications', label: 'Applications' },
+    (cardData?.examples?.length ?? 0) > 0 && { id: 'examples', label: 'Examples' },
+    (cardData?.commonMistakes?.length ?? 0) > 0 && { id: 'commonMistakes', label: 'Common Mistakes' },
+    (cardData?.relatedConcepts?.length ?? 0) > 0 && { id: 'relatedConcepts', label: 'Related Concepts' }
+  ].filter((section): section is NavigationSection => Boolean(section));
 
   return (
     <div className="min-h-screen bg-black text-white">      {/* Back Button */}
@@ -299,16 +320,15 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       <main className="container mx-auto px-4 pb-16">        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">          {/* TOP LEFT: DirectoryItemCard */}          <div 
             ref={cardRef}
             className="order-1 lg:col-span-1 shared-element-transition"
-          >
-            {cardMetadata && cardData && (
+          >            {cardMetadata && cardData && (
               <DirectoryItemCard
                 id={itemId}
                 title={cardData.title}
-                description={cardMetadata.shortDescription} // Use shortDescription from cardMetadata
+                description={cardMetadata.description}
                 bgColor={cardMetadata.bgColor}
-                icon={<IconComponent className="w-full h-full" />} // Pass as JSX element
+                icon={<IconComponent className="w-full h-full" />}
                 category={cardMetadata.category}
-                sectionId={configKey} // Use configKey instead of sectionId for proper category mapping
+                sectionId={configKey}
               />
             )}
           </div>          {/* TOP RIGHT: About Section */}
@@ -361,9 +381,8 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
             isTransitionComplete ? 'content-stagger-2' : 'opacity-0'
           }`}>
             <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800 sticky top-6">
-              <h3 className="text-lg font-semibold mb-4 text-white">Page Navigation</h3>
-              <nav className="space-y-2">
-                {navSections.map((section: any) => (
+              <h3 className="text-lg font-semibold mb-4 text-white">Page Navigation</h3>              <nav className="space-y-2">
+                {navSections.map((section) => (
                   <a
                     key={section.id}
                     href={`#${section.id}`}
