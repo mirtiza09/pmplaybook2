@@ -9,7 +9,7 @@ interface DirectoryItemCardProps {
   title: string;
   description: string;
   bgColor: string;
-  icon: React.ReactNode;
+  icon: React.ReactNode; // Changed back to React.ReactNode
   category: string;
   sectionId?: string; // For dynamic routing
 }
@@ -19,7 +19,7 @@ export function DirectoryItemCard({
   title, 
   description, 
   bgColor, 
-  icon, 
+  icon, // Changed back to icon
   category,
   sectionId = "sectionAlpha"
 }: DirectoryItemCardProps) {
@@ -134,7 +134,6 @@ export function DirectoryItemCard({
       });
     }
   }, [posthog]);
-
   if (!isDetailsEnabled) {
     return (      <div className="block h-full" onClick={handleCardClick}>
         <Card className="overflow-hidden h-full border-none transition-transform duration-300 hover:-translate-y-1 min-h-[240px] bg-zinc-800">
@@ -153,8 +152,7 @@ export function DirectoryItemCard({
         </Card>
       </div>
     );
-  }
-  return (    <Link 
+  }  return (    <Link 
       href={`/${mapSectionToRoute(sectionId)}/${id}`} 
       className="block h-full"
       onClick={handleCardClick}

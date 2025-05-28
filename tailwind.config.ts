@@ -10,6 +10,18 @@ export default {
   // No safelist needed - using inline styles for colors
   theme: {
     extend: {
+      fontFamily: {
+        mono: [
+          "'SF Mono'",
+          "'Monaco'", 
+          "'Inconsolata'",
+          "'Roboto Mono'",
+          "'Source Code Pro'",
+          "'Menlo'",
+          "'Courier'",
+          "monospace"
+        ],
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

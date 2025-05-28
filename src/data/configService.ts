@@ -69,7 +69,7 @@ import {
   HumanNatureIcon,
 } from "@/components/icons";
 
-// Generic icon mapping system
+// Icon mapping system - maps specific icon identifiers from appConfig.json to React components
 const iconMap: Record<string, React.ComponentType> = {
   // Generic icon identifiers mapped to existing icons
   icon1: PeakEndRuleIcon,
@@ -115,9 +115,59 @@ const iconMap: Record<string, React.ComponentType> = {
   icon41: NumeracyIcon,
   icon42: GeneralThinkingIcon,
   icon43: HumanNatureIcon,
-  icon44: HumanNatureIcon,  icon45: HumanNatureIcon,
+  icon44: HumanNatureIcon,
+  icon45: HumanNatureIcon,
   icon55: FeedbackLoopsIcon, // Added for Double-loop learning
   icon57: GrowthIcon, // Added for Growth Mindset
+
+  // Specific DeFi Protocol Icons (sectionAlpha)
+  "icon-aave": AestheticUsabilityIcon,
+  "icon-compound": DohertyThresholdIcon,
+  "icon-makerdao": FittsLawIcon,
+  "icon-uniswap": HicksLawIcon,
+  "icon-sushiswap": JakobsLawIcon,
+  "icon-curve": LawOfCommonRegionIcon,
+  "icon-lido": LawOfProximityIcon,
+  "icon-rocketpool": ParkinsonLawIcon,
+  "icon-synthetix": PeakEndRuleIcon,
+  "icon-dydx": ValidationIcon,
+  "icon-dai": DivergenceConvergenceIcon,
+  "icon-usdc": TechnicalDebtIcon,
+  "icon-chainlink": CustomerRetentionIcon,
+  "icon-band": FeedbackLoopsIcon,
+  "icon-multichain": BrooksLawIcon,
+  "icon-celer": IronTriangleIcon,
+  "icon-metamask": EarlyTestingIcon,
+  "icon-trustwallet": StrategyIcon,
+
+  // Yield Farming Icons (sectionBeta)
+  "icon-stablecoin-farming": PrioritizationIcon,
+  "icon-lp-staking": DiscoveryIcon,
+
+  // Trading Tools Icons (sectionGamma)
+  "icon-tradingview": DeliveryIcon,
+  "icon-dexscreener": GrowthIcon,
+  "icon-dune": StakeholderIcon,
+  "icon-nansen": GeneralThinkingIcon,
+  "icon-zapper": PhysicsIcon,
+  "icon-debank": SystemsIcon,
+  "icon-hummingbot": NumeracyIcon,
+  "icon-3commas": MicroeconomicsIcon,
+  "icon-1inch": MilitaryIcon,
+  "icon-paraswap": HumanNatureIcon,
+
+  // DeFi Concepts Icons (sectionDelta)
+  "icon-smart-contracts": AestheticUsabilityIcon,
+  "icon-decentralization": DohertyThresholdIcon,
+  "icon-trilemma": FittsLawIcon,
+  "icon-audits": HicksLawIcon,
+  "icon-rug-pulls": JakobsLawIcon,
+  "icon-dao": LawOfCommonRegionIcon,
+  "icon-governance-tokens": LawOfProximityIcon,
+  "icon-token-supply": ParkinsonLawIcon,
+  "icon-utility-tokens": PeakEndRuleIcon,
+  "icon-kyc-aml": ValidationIcon,
+  "icon-defi-tax": DivergenceConvergenceIcon,
 };
 
 export interface Card {

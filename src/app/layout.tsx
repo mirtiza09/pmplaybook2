@@ -13,12 +13,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="en" className="dark">
-      <body className={cn("font-['Consolas'] min-h-screen bg-[#121212]")}>
-        {<PostHogProvider>{children}</PostHogProvider>}
-      </body>
-    </html>
+}: Readonly<{ children: React.ReactNode }>) {  return (
+    <html lang="en" className="dark"><body className={cn("font-mono min-h-screen bg-[#121212]")}>
+        <PostHogProvider>{children}</PostHogProvider>
+      </body></html>
   );
 }
