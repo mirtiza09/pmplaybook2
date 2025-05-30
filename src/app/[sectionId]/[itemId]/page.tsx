@@ -43,11 +43,11 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
 
   const [cardData, setCardData] = useState<CardContent | null>(null);
   const [cardMetadata, setCardMetadata] = useState<Card | null>(null);
-  const [configKey, setConfigKey] = useState<string>("");
-  const [isTransitionComplete, setIsTransitionComplete] = useState(false);
+  const [configKey, setConfigKey] = useState<string>("");  const [isTransitionComplete, setIsTransitionComplete] = useState(false);
   const [isNavigatingBack, setIsNavigatingBack] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const [pendingTransitionData, setPendingTransitionData] = useState<TransitionData | null>(null);
+  const [hasTransitionData, setHasTransitionData] = useState(false); // Track if we ever had transition data
 
   useEffect(() => {
     const loadContentAndTransition = async () => {
@@ -61,12 +61,12 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
         setCardData(content);
         setCardMetadata(card || null);
         setConfigKey(configKey);
-        
-        // Check for transition data and store it for later use
+          // Check for transition data and store it for later use
         const transitionData = sessionStorage.getItem('cardTransition');
         if (transitionData) {
           const data = JSON.parse(transitionData);
           setPendingTransitionData(data);
+          setHasTransitionData(true);
           // Clear transition data immediately to prevent reuse
           sessionStorage.removeItem('cardTransition');
         } else {
@@ -93,7 +93,22 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       document.body.style.opacity = '1';
       document.body.style.removeProperty('transition');
     };
-  }, []);  // Separate effect to handle the card transition - start immediately when card element is available
+  }, []);
+
+  // Safety timeout to ensure transition completes even if something goes wrong
+  useEffect(() => {
+    if (hasTransitionData && !isTransitionComplete) {
+      const safetyTimeout = setTimeout(() => {
+        console.warn('Transition safety timeout triggered');
+        setIsTransitionComplete(true);
+        setPendingTransitionData(null);
+      }, 1000); // 1 second safety timeout
+
+      return () => clearTimeout(safetyTimeout);
+    }
+  }, [hasTransitionData, isTransitionComplete]);
+
+  // Separate effect to handle the card transition - start immediately when card element is available
   useEffect(() => {
     if (pendingTransitionData && cardRef.current) {
       const data = pendingTransitionData;
@@ -295,15 +310,17 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
             className="order-1 lg:col-span-1 shared-element-transition"
           >            {/* Always render the card for transition, with placeholder content if data isn't loaded yet */}
             {cardMetadata && cardData ? (
-              <DirectoryItemCard
-                id={itemId}
-                title={cardData.title}
-                description={cardMetadata.description}
-                bgColor={cardMetadata.bgColor}
-                icon={<cardMetadata.icon />}
-                category={cardMetadata.category}
-                sectionId={configKey}
-              />
+              <div className={`${(hasTransitionData && !isTransitionComplete) ? 'opacity-0' : 'opacity-100'}`}>
+                <DirectoryItemCard
+                  id={itemId}
+                  title={cardData.title}
+                  description={cardMetadata.description}
+                  bgColor={cardMetadata.bgColor}
+                  icon={<cardMetadata.icon />}
+                  category={cardMetadata.category}
+                  sectionId={configKey}
+                />
+              </div>
             ) : (
               <div className="w-full h-64 bg-transparent rounded-xl border-transparent animate-pulse opacity-0" />
             )}
