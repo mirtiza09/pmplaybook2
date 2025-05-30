@@ -93,50 +93,43 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       document.body.style.opacity = '1';
       document.body.style.removeProperty('transition');
     };
-  }, []);
-
-  // Separate effect to handle the card transition after the component is fully rendered
+  }, []);  // Separate effect to handle the card transition - start immediately when card element is available
   useEffect(() => {
-    if (pendingTransitionData && cardRef.current && cardData && cardMetadata) {
+    if (pendingTransitionData && cardRef.current) {
       const data = pendingTransitionData;
       const cardElement = cardRef.current;
       
-      // Wait for next frame to ensure the card is fully rendered with content
-      requestAnimationFrame(() => {
-        if (!cardElement) return;
-        
-        const targetRect = cardElement.getBoundingClientRect();
-        
-        // Calculate the exact translation needed
-        const deltaX = data.startX - targetRect.left;
-        const deltaY = data.startY - targetRect.top;
-        const scaleX = data.startWidth / targetRect.width;
-        const scaleY = data.startHeight / targetRect.height;
-        
-        // Set initial transform to match the clicked card's position and size
-        cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
-        cardElement.style.transformOrigin = 'top left';
-        cardElement.style.transition = 'none';
-          // Force a reflow to ensure the initial transform is applied
-        void cardElement.offsetHeight;
-        
-        // Animate to final position
-        requestAnimationFrame(() => {
-          cardElement.style.transition = 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          cardElement.style.transform = 'translate(0, 0) scale(1, 1)';
-          
-          // Clean up after animation completes
-          setTimeout(() => {
-            cardElement.style.removeProperty('transform');
-            cardElement.style.removeProperty('transform-origin');
-            cardElement.style.removeProperty('transition');
-            setIsTransitionComplete(true);
-            setPendingTransitionData(null);
-          }, 600);
-        });
-      });
+      // Start transition immediately without waiting for content
+      const targetRect = cardElement.getBoundingClientRect();
+      
+      // Calculate the exact translation needed
+      const deltaX = data.startX - targetRect.left;
+      const deltaY = data.startY - targetRect.top;
+      const scaleX = data.startWidth / targetRect.width;
+      const scaleY = data.startHeight / targetRect.height;
+      
+      // Set initial transform to match the clicked card's position and size
+      cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+      cardElement.style.transformOrigin = 'top left';
+      cardElement.style.transition = 'none';
+      
+      // Force a reflow to ensure the initial transform is applied
+      void cardElement.offsetHeight;
+      
+      // Animate to final position with faster, smoother timing
+      cardElement.style.transition = 'transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      cardElement.style.transform = 'translate(0, 0) scale(1, 1)';
+      
+      // Clean up after animation completes
+      setTimeout(() => {
+        cardElement.style.removeProperty('transform');
+        cardElement.style.removeProperty('transform-origin');
+        cardElement.style.removeProperty('transition');
+        setIsTransitionComplete(true);
+        setPendingTransitionData(null);
+      }, 450);
     }
-  }, [pendingTransitionData, cardData, cardMetadata]);  const handleBackClick = async (e: React.MouseEvent) => {
+  }, [pendingTransitionData]);const handleBackClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
     // Set navigating back state to trigger fade out
@@ -163,27 +156,8 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
     // Use router.back() for better browser history handling
     // This prevents any loading states since we're going back to a cached page
     router.back();
-  };  // Skip loading state for static app - render immediately when data is available
-  // Show content immediately to prevent blank screen during back navigation
-  if (!cardData || !cardMetadata) {
-    // Return a minimal skeleton instead of null to avoid blank screen
-    return (
-      <div className="min-h-screen bg-black">
-        <div className="absolute top-6 left-6 z-50">
-          <button
-            onClick={() => router.back()}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors group cursor-pointer"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Back
-          </button>
-        </div>
-      </div>
-    );
-  }
+  };
 
-  // Use actual card metadata instead of hardcoded category styles
-  const IconComponent = cardMetadata.icon;
   const colorStyle = () => {
     const colorMap: { [key: string]: string } = {
       // RED SERIES
@@ -280,14 +254,9 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       'bg-slate-700': '#334155',
       'bg-slate-800': '#1e293b',
       'bg-slate-900': '#0f172a'
-    };
-
-    return { backgroundColor: colorMap[cardMetadata.bgColor] || '#6b7280' };
+    };    return { backgroundColor: colorMap[cardMetadata?.bgColor || 'bg-gray-800'] || '#6b7280' };
   };
-  const applicationsKey = cardData.applicationInPM ? 'applicationInPM' : 'applicationInDeFi';
-  const applicationsTitle = cardData.applicationInPM ? 'Applications in Product Management' : 'Applications in DeFi';
-  
-  // Get section display name
+    // Get section display name
   const getSectionDisplayName = (configKey: string) => {
     const sectionNames: { [key: string]: string } = {
       'sectionAlpha': 'Protocols',
@@ -296,7 +265,11 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       'sectionDelta': 'DeFi Concepts'
     };
     return sectionNames[configKey] || configKey;
-  };  // Generate navigation sections based on available content
+  };
+
+  // Determine which applications field to use based on cardData
+  const applicationsKey = cardData?.applicationInPM ? 'applicationInPM' : 'applicationInDeFi';
+  const applicationsTitle = cardData?.applicationInPM ? 'Applications in Product Management' : 'Applications in DeFi';// Generate navigation sections based on available content
   const navSections: NavigationSection[] = [
     cardData?.overview && { id: 'overview', label: 'Overview' },
     (cardData?.keyPrinciples?.length ?? 0) > 0 && { id: 'keyPrinciples', label: 'Key Principles' },
@@ -320,18 +293,21 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       <main className="container mx-auto px-4 pb-16">        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">          {/* TOP LEFT: DirectoryItemCard */}          <div 
             ref={cardRef}
             className="order-1 lg:col-span-1 shared-element-transition"
-          >            {cardMetadata && cardData && (
+          >            {/* Always render the card for transition, with placeholder content if data isn't loaded yet */}
+            {cardMetadata && cardData ? (
               <DirectoryItemCard
                 id={itemId}
                 title={cardData.title}
                 description={cardMetadata.description}
                 bgColor={cardMetadata.bgColor}
-                icon={<IconComponent className="w-full h-full" />}
+                icon={<cardMetadata.icon />}
                 category={cardMetadata.category}
                 sectionId={configKey}
               />
+            ) : (
+              <div className="w-full h-64 bg-transparent rounded-xl border-transparent animate-pulse opacity-0" />
             )}
-          </div>          {/* TOP RIGHT: About Section */}
+          </div>{/* TOP RIGHT: About Section */}
           <div className={`order-2 lg:col-span-3 space-y-6 ${
             isTransitionComplete ? 'content-stagger-1' : 'opacity-0'
           }`}>{/* Category Tags */}
@@ -344,14 +320,13 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
                 </span>
               </div>
             )}
-            
-            {/* Title */}
+              {/* Title */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-              {cardData.title}
+              {cardData?.title}
             </h1>
             
             {/* Overview */}
-            {cardData.overview && (
+            {cardData?.overview && (
               <div className="prose prose-invert max-w-none">
                 <p className="text-lg text-gray-300 leading-relaxed">
                   {cardData.overview}
@@ -369,7 +344,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
               </div>
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="text-2xl font-bold text-white">
-                  {(cardData.keyPrinciples?.length || 0) + (cardData[applicationsKey]?.length || 0)}
+                  {(cardData?.keyPrinciples?.length || 0) + (cardData?.[applicationsKey]?.length || 0)}
                 </div>
                 <div className="text-sm text-gray-400">Key Points</div>
               </div>
@@ -401,7 +376,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
             isTransitionComplete ? 'content-stagger-3' : 'opacity-0'
           }`}>
             <div className="space-y-12">              {/* Key Principles Section */}
-              {cardData.keyPrinciples && cardData.keyPrinciples.length > 0 && (
+              {cardData?.keyPrinciples && cardData.keyPrinciples.length > 0 && (
                 <section id="keyPrinciples" className="scroll-mt-6">
                   <h2 className="text-2xl font-semibold mb-6 text-white border-b border-gray-800 pb-2 flex items-center">
                     <Key className="w-6 h-6 mr-2 text-blue-400" />
@@ -419,7 +394,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
                   </div>
                 </section>
               )}              {/* Applications Section */}
-              {cardData[applicationsKey] && cardData[applicationsKey].length > 0 && (
+              {cardData?.[applicationsKey] && cardData[applicationsKey].length > 0 && (
                 <section id="applications" className="scroll-mt-6">
                   <h2 className="text-2xl font-semibold mb-6 text-white border-b border-gray-800 pb-2 flex items-center">
                     <Target className="w-6 h-6 mr-2 text-green-400" />
@@ -437,7 +412,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
                   </div>
                 </section>
               )}              {/* Examples Section */}
-              {cardData.examples && cardData.examples.length > 0 && (
+              {cardData?.examples && cardData.examples.length > 0 && (
                 <section id="examples" className="scroll-mt-6">
                   <h2 className="text-2xl font-semibold mb-6 text-white border-b border-gray-800 pb-2 flex items-center">
                     <Lightbulb className="w-6 h-6 mr-2 text-yellow-400" />
@@ -454,7 +429,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
                   </div>
                 </section>
               )}              {/* Common Mistakes Section */}
-              {cardData.commonMistakes && cardData.commonMistakes.length > 0 && (
+              {cardData?.commonMistakes && cardData.commonMistakes.length > 0 && (
                 <section id="commonMistakes" className="scroll-mt-6">
                   <h2 className="text-2xl font-semibold mb-6 text-white border-b border-gray-800 pb-2 flex items-center">
                     <AlertTriangle className="w-6 h-6 mr-2 text-red-400" />
@@ -472,7 +447,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
                   </div>
                 </section>
               )}              {/* Related Concepts Section */}
-              {cardData.relatedConcepts && cardData.relatedConcepts.length > 0 && (
+              {cardData?.relatedConcepts && cardData.relatedConcepts.length > 0 && (
                 <section id="relatedConcepts" className="scroll-mt-6">
                   <h2 className="text-2xl font-semibold mb-6 text-white border-b border-gray-800 pb-2 flex items-center">
                     <Network className="w-6 h-6 mr-2 text-blue-400" />

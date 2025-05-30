@@ -142,19 +142,16 @@ export function DirectoryItemCard({
     };
     
     sessionStorage.setItem('cardTransition', JSON.stringify(transitionData));
-    
-    // Add immediate smooth fade and scale effect
+      // Add immediate smooth fade and scale effect
     setIsTransitioning(true);
     if (cardRef.current) {
-      cardRef.current.style.transition = 'all 200ms cubic-bezier(0.4, 0.0, 0.2, 1)';
-      cardRef.current.style.transform = 'scale(0.96) translateZ(0)';
-      cardRef.current.style.opacity = '0.8';
+      cardRef.current.style.transition = 'all 150ms cubic-bezier(0.4, 0.0, 0.2, 1)';
+      cardRef.current.style.transform = 'scale(0.97) translateZ(0)';
+      cardRef.current.style.opacity = '0.9';
     }
     
-    // Navigate immediately with the transition data
-    setTimeout(() => {
-      router.push(`/${mapSectionToRoute(sectionId)}/${id}`);
-    }, 100);
+    // Navigate immediately without delay for seamless transition
+    router.push(`/${mapSectionToRoute(sectionId)}/${id}`);
   };
 
   // Default to clickable (enabled)
