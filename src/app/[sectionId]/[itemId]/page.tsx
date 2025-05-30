@@ -107,42 +107,44 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       return () => clearTimeout(safetyTimeout);
     }
   }, [hasTransitionData, isTransitionComplete]);
-
   // Separate effect to handle the card transition - start immediately when card element is available
   useEffect(() => {
     if (pendingTransitionData && cardRef.current) {
       const data = pendingTransitionData;
       const cardElement = cardRef.current;
       
-      // Start transition immediately without waiting for content
-      const targetRect = cardElement.getBoundingClientRect();
-      
-      // Calculate the exact translation needed
-      const deltaX = data.startX - targetRect.left;
-      const deltaY = data.startY - targetRect.top;
-      const scaleX = data.startWidth / targetRect.width;
-      const scaleY = data.startHeight / targetRect.height;
-      
-      // Set initial transform to match the clicked card's position and size
-      cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
-      cardElement.style.transformOrigin = 'top left';
-      cardElement.style.transition = 'none';
-      
-      // Force a reflow to ensure the initial transform is applied
-      void cardElement.offsetHeight;
-      
-      // Animate to final position with faster, smoother timing
-      cardElement.style.transition = 'transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      cardElement.style.transform = 'translate(0, 0) scale(1, 1)';
-      
-      // Clean up after animation completes
-      setTimeout(() => {
-        cardElement.style.removeProperty('transform');
-        cardElement.style.removeProperty('transform-origin');
-        cardElement.style.removeProperty('transition');
-        setIsTransitionComplete(true);
-        setPendingTransitionData(null);
-      }, 450);
+      // Use requestAnimationFrame to ensure DOM is ready and prevent flicker
+      requestAnimationFrame(() => {
+        // Start transition immediately without waiting for content
+        const targetRect = cardElement.getBoundingClientRect();
+        
+        // Calculate the exact translation needed
+        const deltaX = data.startX - targetRect.left;
+        const deltaY = data.startY - targetRect.top;
+        const scaleX = data.startWidth / targetRect.width;
+        const scaleY = data.startHeight / targetRect.height;
+        
+        // Set initial transform to match the clicked card's position and size
+        cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+        cardElement.style.transformOrigin = 'top left';
+        cardElement.style.transition = 'none';
+        
+        // Force a reflow to ensure the initial transform is applied
+        void cardElement.offsetHeight;
+        
+        // Animate to final position with faster, smoother timing
+        cardElement.style.transition = 'transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        cardElement.style.transform = 'translate(0, 0) scale(1, 1)';
+        
+        // Clean up after animation completes
+        setTimeout(() => {
+          cardElement.style.removeProperty('transform');
+          cardElement.style.removeProperty('transform-origin');
+          cardElement.style.removeProperty('transition');
+          setIsTransitionComplete(true);
+          setPendingTransitionData(null);
+        }, 450);
+      });
     }
   }, [pendingTransitionData]);const handleBackClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -310,17 +312,15 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
             className="order-1 lg:col-span-1 shared-element-transition"
           >            {/* Always render the card for transition, with placeholder content if data isn't loaded yet */}
             {cardMetadata && cardData ? (
-              <div className={`${(hasTransitionData && !isTransitionComplete) ? 'opacity-0' : 'opacity-100'}`}>
-                <DirectoryItemCard
-                  id={itemId}
-                  title={cardData.title}
-                  description={cardMetadata.description}
-                  bgColor={cardMetadata.bgColor}
-                  icon={<cardMetadata.icon />}
-                  category={cardMetadata.category}
-                  sectionId={configKey}
-                />
-              </div>
+              <DirectoryItemCard
+                id={itemId}
+                title={cardData.title}
+                description={cardMetadata.description}
+                bgColor={cardMetadata.bgColor}
+                icon={<cardMetadata.icon />}
+                category={cardMetadata.category}
+                sectionId={configKey}
+              />
             ) : (
               <div className="w-full h-64 bg-transparent rounded-xl border-transparent animate-pulse opacity-0" />
             )}
