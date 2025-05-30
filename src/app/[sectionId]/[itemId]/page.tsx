@@ -106,29 +106,13 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
 
       return () => clearTimeout(safetyTimeout);
     }
-  }, [hasTransitionData, isTransitionComplete]);
-  // Separate effect to handle the card transition - start immediately when card element is available
+  }, [hasTransitionData, isTransitionComplete]);  // Separate effect to handle the card transition - start immediately when card element is available
   useEffect(() => {
     if (pendingTransitionData && cardRef.current) {
-      const data = pendingTransitionData;
       const cardElement = cardRef.current;
       
-      // Use requestAnimationFrame to ensure DOM is ready and prevent flicker
+      // Use requestAnimationFrame only for the animation part
       requestAnimationFrame(() => {
-        // Start transition immediately without waiting for content
-        const targetRect = cardElement.getBoundingClientRect();
-        
-        // Calculate the exact translation needed
-        const deltaX = data.startX - targetRect.left;
-        const deltaY = data.startY - targetRect.top;
-        const scaleX = data.startWidth / targetRect.width;
-        const scaleY = data.startHeight / targetRect.height;
-        
-        // Set initial transform to match the clicked card's position and size
-        cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
-        cardElement.style.transformOrigin = 'top left';
-        cardElement.style.transition = 'none';
-        
         // Force a reflow to ensure the initial transform is applied
         void cardElement.offsetHeight;
         
@@ -310,6 +294,14 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
       <main className="container mx-auto px-4 pb-16">        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">          {/* TOP LEFT: DirectoryItemCard */}          <div 
             ref={cardRef}
             className="order-1 lg:col-span-1 shared-element-transition"
+            style={{
+              // If we have pending transition data, start with the card positioned at the origin
+              ...(pendingTransitionData && cardRef.current ? {
+                transform: `translate(${pendingTransitionData.startX - (cardRef.current?.getBoundingClientRect().left || 0)}px, ${pendingTransitionData.startY - (cardRef.current?.getBoundingClientRect().top || 0)}px) scale(${pendingTransitionData.startWidth / (cardRef.current?.getBoundingClientRect().width || 1)}, ${pendingTransitionData.startHeight / (cardRef.current?.getBoundingClientRect().height || 1)})`,
+                transformOrigin: 'top left',
+                transition: 'none'
+              } : {})
+            }}
           >            {/* Always render the card for transition, with placeholder content if data isn't loaded yet */}
             {cardMetadata && cardData ? (
               <DirectoryItemCard
