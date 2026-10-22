@@ -1,13 +1,17 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { usePostHog } from "posthog-js/react"
+import { track, type ContentType } from "@/lib/analytics"
 import { cn } from "@/lib/utils"
 
 interface CategoryTabsProps {
   activeCategory: string;
   setActiveCategory: (category: string) => void;
   categories?: string[];
+  /** Which taxonomy these tabs filter. */
+  taxonomy: ContentType;
+  /** Number of items matching the category being left, for drop-off analysis. */
+  resultsTotal: number;
 }
 
 interface TabProps {
@@ -16,22 +20,27 @@ interface TabProps {
   onClick?: () => void
 }
 
-export function CategoryTabs({ 
-  activeCategory, 
-  setActiveCategory, 
-  categories = ["ALL", "DISCOVERY", "OPERATIONS", "DELIVERY", "UX"] 
+export function CategoryTabs({
+  activeCategory,
+  setActiveCategory,
+  categories = ["ALL", "DISCOVERY", "OPERATIONS", "DELIVERY", "UX"],
+  taxonomy,
+  resultsTotal,
 }: CategoryTabsProps) {
   const tabs = categories.map((category) => ({ label: category }));
-  const initialIndex = categories.findIndex(cat => cat === activeCategory) || 0;
-  
-  const posthog = usePostHog();
+  // findIndex returns -1 when the active category is not in the list; the old
+  // `|| 0` fallback did not catch that, because -1 is truthy.
+  const foundIndex = categories.findIndex(cat => cat === activeCategory);
+  const initialIndex = foundIndex === -1 ? 0 : foundIndex;
 
   const handleTabChange = (index: number) => {
     const newCategory = categories[index];
     setActiveCategory(newCategory);
-    posthog.capture('category_change', {
-      from: activeCategory,
-      to: newCategory
+    track("category_filter_changed", {
+      taxonomy,
+      from_category: activeCategory,
+      to_category: newCategory,
+      results_total: resultsTotal,
     });
   };
 

@@ -7,6 +7,7 @@ import { CategoryTabs } from "@/components/CategoryTabs";
 import { UXLawCard } from "@/components/UXLawCard";
 import { getFilteredLaws } from "@/data/ux-laws";
 import { Pagination } from "@/components/Pagination";
+import { TrendingModule } from "@/components/TrendingModule";
 
 
 export default function Home() {
@@ -33,16 +34,20 @@ export default function Home() {
           </h1>
         </div>
 
+        <TrendingModule />
+
         <div className="mb-16">
           <CategoryTabs
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
             categories={["all", "discovery", "operations", "delivery", "ux"]}
+            taxonomy="law"
+            resultsTotal={filteredLaws.length}
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {paginatedLaws.map((law) => (
+          {paginatedLaws.map((law, index) => (
             <UXLawCard
               key={law.id}
               id={law.id}
@@ -51,6 +56,10 @@ export default function Home() {
               bgColor={law.bgColor}
               category={law.category.replace("_", " ").toUpperCase()}
               icon={<law.icon />}
+              contentType="law"
+              position={index}
+              pageNumber={currentPage}
+              resultsTotal={filteredLaws.length}
             />
           ))}
         </div>
@@ -59,6 +68,7 @@ export default function Home() {
           totalItems={filteredLaws.length}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
+          taxonomy="law"
         />
       </section>
 
