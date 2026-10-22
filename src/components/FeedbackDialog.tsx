@@ -1,28 +1,46 @@
-
 "use client"
 
 import { useState } from 'react'
-import { usePostHog } from 'posthog-js/react'
+import { track, captureSurveyResponse } from '@/lib/analytics'
+
+/**
+ * Survey this dialog posts into. Configured rather than hardcoded so the
+ * survey can be replaced in PostHog without a deploy; the literal is only a
+ * fallback for the survey that exists today.
+ */
+const FEEDBACK_SURVEY_ID =
+  process.env.NEXT_PUBLIC_POSTHOG_FEEDBACK_SURVEY_ID ||
+  '0195d367-83e3-0000-aa74-d5b5996cad7e'
 
 export function FeedbackDialog() {
   const [isOpen, setIsOpen] = useState(false)
   const [feedback, setFeedback] = useState('')
-  const posthog = usePostHog()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    posthog.capture("survey sent", {
-      $survey_id: '0195d367-83e3-0000-aa74-d5b5996cad7e',
-      $survey_response: feedback
-    })
+    captureSurveyResponse(FEEDBACK_SURVEY_ID, feedback)
+    track('feedback_submitted', { surface: 'footer', response_length: feedback.length })
     setFeedback('')
+    setIsOpen(false)
+  }
+
+  const handleOpen = () => {
+    track('feedback_opened', { surface: 'footer' })
+    setIsOpen(true)
+  }
+
+  // Abandonment is as informative as submission: a long draft that never gets
+  // sent is a different problem from nobody opening the dialog at all.
+  const handleDismiss = () => {
+    track('feedback_dismissed', { surface: 'footer', response_length: feedback.length })
     setIsOpen(false)
   }
 
   if (!isOpen) {
     return (
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
+        data-attr="feedback-open"
         className="px-6 py-2 bg-black text-white border border-white relative hover:before:content-['•'] hover:before:absolute hover:before:left-2 hover:before:top-1/2 hover:before:transform hover:before:-translate-y-1/2 hover:before:text-lg disabled:opacity-50 transition-all"
       >
         Give Feedback
@@ -45,13 +63,15 @@ export function FeedbackDialog() {
           <div className="flex gap-2">
             <button
               type="submit"
+              data-attr="feedback-submit"
               className="px-6 py-2 bg-black text-white border border-white hover:bg-gray-800"
             >
               Submit
             </button>
             <button
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={handleDismiss}
+              data-attr="feedback-cancel"
               className="px-6 py-2 bg-black text-white border border-white hover:bg-gray-800"
             >
               Cancel

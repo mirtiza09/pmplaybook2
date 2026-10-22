@@ -37,11 +37,13 @@ export default function FrameworksPage() {
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
             categories={["all", "strategy", "stakeholder", "prioritization", "discovery", "delivery", "growth"]}
+            taxonomy="framework"
+            resultsTotal={filteredFrameworks.length}
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {paginatedFrameworks.map((framework) => (
+          {paginatedFrameworks.map((framework, index) => (
             <UXLawCard
               key={framework.id}
               id={framework.id}
@@ -50,6 +52,10 @@ export default function FrameworksPage() {
               bgColor={framework.bgColor}
               category={framework.category.replace("_", " ").toUpperCase()}
               icon={<framework.icon />}
+              contentType="framework"
+              position={index}
+              pageNumber={currentPage}
+              resultsTotal={filteredFrameworks.length}
             />
           ))}
         </div>
@@ -58,6 +64,7 @@ export default function FrameworksPage() {
           totalItems={filteredFrameworks.length}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
+          taxonomy="framework"
         />
       </section>
 

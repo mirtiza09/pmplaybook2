@@ -2,8 +2,7 @@
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
+import { EarlyAccessCTA } from "@/components/EarlyAccessCTA";
 
 export default function BookPage() {
   return (
@@ -24,10 +23,12 @@ export default function BookPage() {
                 <p className="text-sm text-muted-foreground mt-2">by Jon Yablonski</p>
               </div>
             </div>
-            <div className="text-center">
-              <Button className="mt-4">
-                Get the Book <ArrowUpRight className="ml-2 h-4 w-4" />
-              </Button>
+            <div className="text-center mt-4">
+              <EarlyAccessCTA
+                featureKey="playbook-book"
+                label="Tell me when it's out"
+                surface="book_page"
+              />
             </div>
           </div>
 

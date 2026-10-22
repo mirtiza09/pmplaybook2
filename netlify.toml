@@ -10,3 +10,25 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Optional PostHog reverse proxy.
+#
+# The client sends to https://eu.posthog.com directly by default, which is what
+# this site has always done. These redirects exist so that proxying can be
+# switched on by setting NEXT_PUBLIC_POSTHOG_HOST to "/ingest" — events then
+# travel via this domain and survive ad blockers that recognise PostHog's.
+#
+# They are declared here rather than only as Next rewrites because
+# NETLIFY_NEXT_PLUGIN_SKIP is set, which means framework rewrites are not
+# reliably applied. Inactive until that env var is set.
+[[redirects]]
+  from = "/ingest/static/*"
+  to = "https://eu-assets.i.posthog.com/static/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ingest/*"
+  to = "https://eu.i.posthog.com/:splat"
+  status = 200
+  force = true

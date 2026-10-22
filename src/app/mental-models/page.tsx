@@ -40,11 +40,13 @@ export default function MentalModelsPage() {
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
             categories={["all", "thinking", "natural sciences", "systems", "numeracy", "microeconomics", "military", "human nature"]}
+            taxonomy="mental_model"
+            resultsTotal={filteredModels.length}
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {paginatedModels.map((model) => (
+          {paginatedModels.map((model, index) => (
             <UXLawCard
               key={model.id}
               id={model.id}
@@ -53,14 +55,21 @@ export default function MentalModelsPage() {
               bgColor={model.bgColor}
               icon={<model.icon />}
               category={model.category}
+              contentType="mental_model"
+              position={index}
+              pageNumber={currentPage}
+              resultsTotal={filteredModels.length}
             />
           ))}
         </div>
         <Pagination
           currentPage={currentPage}
-          totalItems={mentalModels.length}
+          // Was mentalModels.length, which ignored the active category filter
+          // and let the pager offer pages that render nothing.
+          totalItems={filteredModels.length}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
+          taxonomy="mental_model"
         />
       </section>
 

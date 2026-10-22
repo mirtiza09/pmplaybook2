@@ -1,12 +1,35 @@
 "use client";
 
+import { useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { track, isValidDetailRoute } from "@/lib/analytics";
 
 export default function NotFound() {
+  // A 404 is the one page where the interesting data is the URL itself. Without
+  // the attempted slug there is no way to tell a broken internal link from a
+  // stale external one.
+  useEffect(() => {
+    const path = window.location.pathname;
+    const slug = path.replace(/^\/+/, "");
+    const referrer = document.referrer;
+    const sameOrigin = referrer.startsWith(window.location.origin);
+
+    track("content_not_found", {
+      attempted_slug: slug,
+      referrer_path: sameOrigin ? new URL(referrer).pathname : null,
+      likely_cause:
+        path === "/cards"
+          ? "flag_gated_route"
+          : sameOrigin || isValidDetailRoute(slug)
+            ? "unknown_slug"
+            : "external_link",
+    });
+  }, []);
+
   return (
     <main className="flex flex-col min-h-screen">
       <Header />

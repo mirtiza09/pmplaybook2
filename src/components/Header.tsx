@@ -6,24 +6,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePostHog } from "posthog-js/react";
+import { useFeatureFlagEnabled } from "posthog-js/react";
+import { track } from "@/lib/analytics";
 
 export function Header() {
   const pathname = usePathname();
   const [hovered, setHovered] = useState<number | null>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
-  const [isCardsEnabled, setIsCardsEnabled] = useState(false);
   const navWrapperRef = useRef<HTMLDivElement>(null);
-  const posthog = usePostHog();
-
-  useEffect(() => {
-    if (posthog) {
-      posthog.onFeatureFlags(() => {
-        setIsCardsEnabled(posthog.isFeatureEnabled('CardsPage'));
-      });
-    }
-  }, [posthog]);
+  const isCardsEnabled = useFeatureFlagEnabled("CardsPage") === true;
 
   const links = [
     { href: "/", label: "LAWS" },
@@ -100,9 +92,10 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => {
-                    posthog.capture('navigation_click', {
-                      section: link.label,
-                      path: link.href
+                    track("navigation_clicked", {
+                      nav_section: link.label,
+                      nav_path: link.href,
+                      is_flagged_item: link.href === "/cards",
                     });
                   }}
                   onMouseEnter={() => setHovered(index)}
