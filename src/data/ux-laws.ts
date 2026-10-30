@@ -111,7 +111,7 @@ export const uxLaws = [
   },
   {
     id: "fitts-law",
-    title: "Fitt's Law",
+    title: "Fitts's Law",
     description:
       "The time to acquire a target is a function of the distance to and size of the target.",
     bgColor: "bg-green-900",

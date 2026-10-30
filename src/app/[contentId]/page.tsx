@@ -3,13 +3,14 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
 import { ContentDetailTracker } from "@/components/ContentDetailTracker";
-import { resolveContent, allContentIds, type ContentType } from "@/lib/analytics";
+import { getContentDetail } from "@/data/details";
+import { resolveContent, allContentIds } from "@/lib/analytics";
 
 /**
  * Detail page for any of the three taxonomies.
  *
  * This route used to resolve against the 17 UX laws only, while the card grid
- * linked every one of the 71 items here — so 54 cards led straight to a 404.
+ * linked every one of the 71 items here, so 54 cards led straight to a 404.
  * It now resolves through the shared content index, which is the same source
  * the cards use to report whether their destination exists.
  */
@@ -17,21 +18,6 @@ import { resolveContent, allContentIds, type ContentType } from "@/lib/analytics
 export function generateStaticParams() {
   return allContentIds().map((contentId) => ({ contentId }));
 }
-
-const OVERVIEW_COPY: Record<ContentType, (title: string) => string[]> = {
-  law: (title) => [
-    `${title} is a principle that shapes how product teams read user behaviour and make decisions under constraint.`,
-    "Applied deliberately, it makes the trade-offs in a decision explicit rather than implicit.",
-  ],
-  framework: (title) => [
-    `${title} is a structured approach product managers use to turn an ambiguous problem into a sequence of decisions.`,
-    "Frameworks are most useful as a shared vocabulary for a team, not as a process to follow literally.",
-  ],
-  mental_model: (title) => [
-    `${title} is a thinking tool: a way of reframing a problem so that its important features become visible.`,
-    "Mental models compound — the value comes from having several available and knowing which one a situation calls for.",
-  ],
-};
 
 export default async function ContentDetailPage({
   params,
@@ -46,7 +32,7 @@ export default async function ContentDetailPage({
   }
 
   const { contentType, item } = resolved;
-  const overview = OVERVIEW_COPY[contentType](item.title);
+  const detail = getContentDetail(item.id);
 
   return (
     <main className="flex flex-col min-h-screen">
@@ -80,13 +66,41 @@ export default async function ContentDetailPage({
 
             <p className="text-xl mb-12">{item.description}</p>
 
-            <div className="border-t border-zinc-800 pt-8">
-              <h2 className="text-2xl mb-6">Overview</h2>
-              {overview.map((paragraph) => (
-                <p key={paragraph} className="text-muted-foreground mb-6">
+            <div className="border-t border-zinc-800 pt-8 mb-12">
+              <h2 className="text-2xl mb-6">Key Points</h2>
+              <ul className="list-disc pl-5 space-y-3 text-muted-foreground">
+                {detail.keyPoints.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border-t border-zinc-800 pt-8 mb-12">
+              <h2 className="text-2xl mb-6">Details</h2>
+              {detail.details.map((paragraph) => (
+                <p key={paragraph} className="text-muted-foreground leading-relaxed mb-6 last:mb-0">
                   {paragraph}
                 </p>
               ))}
+            </div>
+
+            <div className="border-t border-zinc-800 pt-8">
+              <h2 className="text-2xl mb-6">Applications</h2>
+              <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
+                {detail.applications.map((application) => (
+                  <div key={application.title}>
+                    <h3 className="font-medium mb-2">
+                      {application.title}
+                      {application.realWorld && (
+                        <span className="ml-2 text-xs font-normal uppercase text-muted-foreground">
+                          Real world
+                        </span>
+                      )}
+                    </h3>
+                    <p className="text-muted-foreground">{application.body}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
